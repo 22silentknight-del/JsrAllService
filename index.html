@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSR Technology and Services LLP — Surveying &amp; Geospatial Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f172a;
+    --ink-2:#1e293b;
+    --paper:#f8fafc;
+    --paper-2:#fff7ed;
+    --surface:#ffffff;
+    --gold:#fb923c;
+    --gold-bright:#ea580c;
+    --maroon:#c2410c;
+    --muted:#64748b;
+    --line: rgba(15,23,42,0.10);
+    --line-dark: rgba(15,23,42,0.10);
+    --card-shadow:0 18px 45px -28px rgba(154,52,18,0.55);
+    --serif:'Playfair Display', serif;
+    --sans:'Inter', sans-serif;
+    --mono:'Inter', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--sans);
+    background:
+      radial-gradient(circle at 8% 4%, rgba(234,88,12,0.10), transparent 22%),
+      linear-gradient(180deg, #fff7ed 0%, var(--paper) 18%, var(--paper) 100%);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--gold);color:var(--ink);}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 32px;
+    background:rgba(255,247,237,0.86);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(251,146,60,0.22);
+    mix-blend-mode:normal;
+    transition:background .35s ease, padding .35s ease, box-shadow .35s ease;
+  }
+  header.site-nav.scrolled{
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(8px);
+    padding:10px 32px;
+    box-shadow:0 12px 34px -30px rgba(15,23,42,0.65);
+  }
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--sans);font-weight:800;font-size:16px;color:var(--ink);letter-spacing:.2px;}
+  .jsr-logo{
+    width:92px;height:46px;display:block;flex:0 0 auto;
+    object-fit:contain;
+    background:#f7f7f5;border-radius:3px;padding:5px 7px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.12);
+  }
+  .brand .jsr-logo{width:82px;height:42px;}
+  .brand-text{white-space:nowrap;}
+  nav.links{display:flex;gap:10px;font-size:14px;color:var(--ink);background:rgba(255,255,255,0.72);border:1px solid rgba(15,23,42,0.08);border-radius:999px;padding:5px;}
+  nav.links a{position:relative;padding:9px 10px;border-radius:999px;font-weight:700;opacity:.9;transition:background .2s,color .2s;}
+  nav.links a:hover{opacity:1;background:#ffedd5;color:var(--gold-bright);}
+  nav.links a::after{display:none;}
+  .nav-cta{
+    font-family:var(--sans);font-size:14px;color:#fff;font-weight:800;
+    background:linear-gradient(135deg,#fb923c,#ea580c);padding:12px 20px;border-radius:16px;
+    letter-spacing:0;border:0;cursor:pointer;box-shadow:0 14px 30px -20px rgba(154,52,18,0.92);
+  }
+  .nav-cta:hover{background:linear-gradient(135deg,#fdba74,#c2410c);}
+  .burger{display:none;}
+
+  /* ---------- REQUEST DEMO MODAL ---------- */
+  body.modal-open{overflow:hidden;}
+  .demo-modal{
+    position:fixed;inset:0;z-index:200;display:none;
+    align-items:center;justify-content:center;padding:26px;
+  }
+  .demo-modal.is-open{display:flex;}
+  .demo-backdrop{
+    position:absolute;inset:0;background:rgba(7,18,35,0.72);
+    backdrop-filter:blur(5px);
+  }
+  .demo-dialog{
+    position:relative;z-index:1;width:min(520px, 100%);
+    max-height:calc(100vh - 52px);overflow:auto;
+    background:#fff;border-radius:18px;padding:26px 24px 24px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.35);
+  }
+  .demo-close{
+    position:absolute;top:12px;right:14px;width:32px;height:32px;
+    border:0;border-radius:50%;background:#f2f4f7;color:#516173;
+    font-size:20px;line-height:1;cursor:pointer;
+  }
+  .demo-close:hover{background:#e9edf2;color:var(--maroon);}
+  .demo-title{
+    font-family:var(--serif);font-size:26px;line-height:1.15;
+    text-align:center;color:var(--ink);margin:2px 36px 10px;
+  }
+  .demo-copy{
+    max-width:420px;margin:0 auto 20px;text-align:center;
+    color:#536783;font-size:15px;line-height:1.45;
+  }
+  .demo-form{display:grid;gap:12px;}
+  .demo-field{
+    display:grid;grid-template-columns:26px 1fr;align-items:start;gap:10px;
+    min-height:48px;background:#f8fafc;border:1px solid #dce5ef;
+    border-radius:10px;padding:0 14px;color:#68788e;
+  }
+  .demo-field svg{width:19px;height:19px;margin-top:14px;stroke:#6a788d;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .demo-field input,.demo-field textarea{
+    width:100%;border:0;outline:0;background:transparent;
+    color:#1f2d3d;font:500 15px/1.35 var(--sans);padding:14px 0;
+  }
+  .demo-field textarea{min-height:96px;resize:vertical;}
+  .demo-field input::placeholder,.demo-field textarea::placeholder{color:#6d7480;opacity:1;}
+  .demo-submit{
+    min-height:48px;border-radius:11px;border:1px solid #f6c08a;
+    background:#fff1dc;color:#98230f;font:700 16px/1 var(--sans);
+    cursor:pointer;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:10px;
+  }
+  .demo-submit:hover{background:#ffe5bd;}
+  .demo-submit svg{width:18px;height:18px;fill:#98230f;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;min-height:720px;
+    background:
+      radial-gradient(circle at 76% 18%, rgba(251,146,60,0.28), transparent 30%),
+      radial-gradient(circle at 18% 78%, rgba(29,78,216,0.12), transparent 28%),
+      linear-gradient(135deg,#fff7ed 0%,#ffffff 50%,#ffedd5 100%);
+    color:#fff;overflow:hidden;
+    display:flex;flex-direction:column;justify-content:flex-end;
+  }
+  .hero-photo{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:0.88;filter:saturate(0.95) contrast(1.06);
+  }
+  .hero-photo-veil{
+    position:absolute;inset:0;
+    background:
+      linear-gradient(90deg, rgba(15,23,42,0.78), rgba(15,23,42,0.36) 56%, rgba(194,65,12,0.32)),
+      linear-gradient(180deg, rgba(15,23,42,0.20), rgba(15,23,42,0.82));
+  }
+  #hero-canvas{
+    position:absolute;inset:0;width:100%;height:100%;
+    opacity:0.45;
+  }
+  .hero-grid-overlay{
+    position:absolute;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:linear-gradient(to bottom, black, transparent 75%);
+  }
+  .hero-content{
+    position:relative;z-index:3;
+    width:100%;max-width:720px;margin-left:max(32px, calc((100vw - 1180px) / 2));
+    margin-right:auto;margin-bottom:70px;padding:32px;
+    background:rgba(15,23,42,0.66);border:1px solid rgba(253,186,116,0.28);
+    border-radius:28px;box-shadow:0 26px 80px -38px rgba(0,0,0,0.72);
+    backdrop-filter:blur(10px);
+  }
+  .eyebrow-coord{
+    font-family:var(--sans);font-size:11px;color:#fdba74;font-weight:800;
+    letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px;display:flex;gap:18px;flex-wrap:wrap;
+  }
+  .eyebrow-coord span{opacity:.8;}
+  h1.hero-title{
+    font-family:var(--serif);font-weight:800;
+    font-size:clamp(34px, 4.2vw, 56px);
+    line-height:1.08;letter-spacing:0;
+    max-width:680px;
+  }
+  h1.hero-title em{font-style:normal;font-weight:800;color:#fdba74;}
+  .hero-sub{
+    margin-top:20px;max-width:560px;font-size:15.5px;line-height:1.65;
+    color:rgba(255,255,255,0.78);
+  }
+  .hero-actions{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;align-items:center;}
+  .btn-solid{
+    background:linear-gradient(135deg,#fb923c,#ea580c);color:#fff;font-weight:800;font-size:14.5px;
+    padding:15px 28px;border-radius:16px;transition:transform .2s ease, background .2s;
+    box-shadow:0 14px 30px -20px rgba(154,52,18,0.92);
+  }
+  .btn-solid:hover{background:linear-gradient(135deg,#fdba74,#c2410c);transform:translateY(-2px);}
+  .btn-ghost{
+    border:1px solid rgba(253,186,116,0.34);color:#fff;font-weight:700;font-size:14.5px;
+    padding:15px 28px;border-radius:16px;background:rgba(255,255,255,0.08);transition:border-color .2s, background .2s;
+  }
+  .btn-ghost:hover{border-color:#fdba74;background:rgba(255,255,255,0.14);}
+  .hero-strip{
+    position:relative;z-index:3;
+    border-top:1px solid rgba(251,146,60,0.24);
+    display:flex;flex-wrap:wrap;
+  }
+  .hero-strip .cell{
+    flex:1 1 200px;padding:22px 32px;border-right:1px solid rgba(251,146,60,0.18);
+    background:rgba(255,255,255,0.10);
+  }
+  .hero-strip .cell:last-child{border-right:none;}
+  .hero-strip .num{font-family:var(--serif);font-size:30px;color:var(--gold-bright);}
+  .hero-strip .lbl{font-family:var(--sans);font-weight:800;font-size:11.5px;color:rgba(255,255,255,0.68);margin-top:4px;letter-spacing:.04em;}
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{padding:120px 0;position:relative;}
+  .section-tag{
+    font-family:var(--sans);font-size:12px;color:var(--gold-bright);
+    font-weight:800;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:18px;
+  }
+  .section-tag.on-dark{color:var(--gold-bright);}
+  h2.section-title{
+    font-family:var(--serif);font-weight:800;font-size:clamp(30px,4vw,48px);
+    line-height:1.12;letter-spacing:0;max-width:720px;color:var(--ink);
+  }
+  .section-title em{font-style:normal;font-weight:800;color:var(--gold-bright);}
+  .on-dark h2.section-title em{color:var(--gold-bright);}
+
+  /* ---------- ABOUT ---------- */
+  #about{background:var(--paper);}
+  .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:70px;margin-top:56px;}
+  .about-grid p{font-size:15.5px;line-height:1.75;color:var(--muted);margin-bottom:20px;max-width:520px;}
+  .about-media{position:relative;}
+  .about-media img{
+    width:100%;height:380px;object-fit:cover;border-radius:18px;
+    box-shadow:var(--card-shadow);
+  }
+  .about-media .tag-chip{
+    position:absolute;bottom:-18px;left:-18px;background:#fff;color:var(--maroon);
+    padding:14px 20px;font-family:var(--sans);font-weight:800;font-size:11.5px;letter-spacing:.04em;
+    border-left:3px solid var(--gold-bright);border-radius:14px;box-shadow:var(--card-shadow);
+  }
+  .quote-block{
+    border-left:2px solid var(--gold);padding-left:26px;
+    font-family:var(--serif);font-style:normal;font-size:22px;line-height:1.5;
+    color:var(--ink-2);align-self:center;margin-top:36px;
+  }
+  .quote-block cite{
+    display:block;margin-top:16px;font-style:normal;font-family:var(--mono);
+    font-size:12px;color:var(--maroon);font-weight:800;letter-spacing:.04em;
+  }
+
+  /* ---------- SHOWCASE STRIP ---------- */
+  .showcase-strip{
+    display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2px;
+    margin-top:64px;background:var(--line-dark);
+  }
+  .showcase-strip .shot{position:relative;overflow:hidden;min-height:260px;}
+  .showcase-strip .shot img{
+    width:100%;height:100%;object-fit:cover;position:absolute;inset:0;
+    transition:transform .6s ease;
+  }
+  .showcase-strip .shot:hover img{transform:scale(1.06);}
+  .showcase-strip .shot .cap{
+    position:absolute;left:0;bottom:0;right:0;
+    background:linear-gradient(180deg, transparent, rgba(13,43,39,0.85));
+    color:#fff;padding:16px 18px 14px;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;
+  }
+
+  /* ---------- WELCOME MESSAGE ---------- */
+  #welcome{
+    background:
+      radial-gradient(circle at 90% 10%, rgba(251,146,60,0.10), transparent 25%),
+      linear-gradient(180deg, rgba(255,247,237,0.72), rgba(255,255,255,0));
+    color:var(--ink);
+  }
+  .on-dark{ }
+  .welcome-inner{display:grid;grid-template-columns:.55fr 1fr;gap:70px;align-items:start;margin-top:56px;}
+  .md-card{
+    border:1px solid rgba(251,146,60,0.24);padding:32px;border-radius:18px;background:var(--surface);
+    box-shadow:var(--card-shadow);
+  }
+  .md-card .initial{
+    width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#fb923c,#ea580c);
+    color:#fff;font-family:var(--serif);font-size:24px;
+    display:flex;align-items:center;justify-content:center;margin-bottom:20px;
+  }
+  .md-card .name{font-family:var(--serif);font-size:22px;}
+  .md-card .role{font-family:var(--sans);font-size:12px;font-weight:800;color:var(--gold-bright);margin-top:4px;}
+  .welcome-text p{font-size:15.5px;line-height:1.8;color:var(--muted);margin-bottom:20px;max-width:620px;}
+
+  /* ---------- VISION / MISSION ---------- */
+  #vm{background:var(--paper-2);}
+  .vm-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:56px;background:transparent;}
+  .vm-card{background:var(--surface);padding:44px;border:1px solid rgba(251,146,60,0.24);border-radius:18px;box-shadow:var(--card-shadow);}
+  .vm-card h3{font-family:var(--serif);font-style:normal;font-size:26px;margin-bottom:16px;color:var(--maroon);}
+  .vm-card p{font-size:15.5px;line-height:1.75;color:var(--muted);}
+
+  /* ---------- SERVICES ---------- */
+  #services{background:var(--paper);}
+  .services-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap;}
+  .services-head p{max-width:380px;font-size:15.5px;line-height:1.7;color:var(--muted);}
+  .services-grid{
+    margin-top:60px;display:grid;grid-template-columns:repeat(3,1fr);
+    gap:22px;
+  }
+  .svc-card{
+    appearance:none;border:0;background:transparent;color:inherit;
+    display:block;width:100%;min-height:360px;padding:0;
+    perspective:1200px;text-align:left;cursor:pointer;
+    font-family:inherit;
+  }
+  .svc-card:focus-visible{outline:2px solid var(--maroon);outline-offset:5px;}
+  .svc-card.is-flipped .svc-inner{transform:rotateY(180deg);}
+  .svc-inner{
+    display:block;
+    position:relative;min-height:360px;height:100%;
+    transform-style:preserve-3d;transition:transform .65s cubic-bezier(.2,.7,.2,1);
+  }
+  .svc-face{
+    display:block;
+    position:absolute;inset:0;overflow:hidden;border:1px solid rgba(251,146,60,0.24);
+    border-radius:18px;backface-visibility:hidden;
+    box-shadow:var(--card-shadow);
+  }
+  .svc-front{background:var(--ink);color:#fff;}
+  .svc-front img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    filter:saturate(.9) contrast(1.02);transition:transform .7s ease, opacity .3s ease;
+  }
+  .svc-card:hover .svc-front img{transform:scale(1.06);}
+  .svc-front::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(13,43,39,0.08) 0%, rgba(13,43,39,0.42) 42%, rgba(13,43,39,0.92) 100%);
+  }
+  .svc-front .svc-content{
+    position:absolute;left:22px;right:22px;bottom:20px;z-index:2;
+  }
+  .svc-back{
+    transform:rotateY(180deg);background:linear-gradient(145deg,#fff7ed,#fff);color:var(--ink);
+    padding:26px;display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .svc-back::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 18% 16%, rgba(216,171,92,.22), transparent 34%);
+    pointer-events:none;
+  }
+  .svc-back > *{position:relative;z-index:1;}
+  .svc-id{display:block;font-family:var(--mono);font-size:12px;color:var(--gold-bright);letter-spacing:.03em;}
+  .svc-name{display:block;font-family:var(--serif);font-size:25px;margin:12px 0 0;line-height:1.18;color:inherit;}
+  .svc-more{display:block;font-size:14.5px;line-height:1.65;color:var(--muted);margin-top:18px;}
+  .svc-meta{
+    display:flex;justify-content:space-between;gap:16px;align-items:center;
+    margin-top:24px;padding-top:18px;border-top:1px solid var(--line);
+    font-family:var(--sans);font-weight:800;font-size:11px;color:var(--maroon);letter-spacing:.04em;
+  }
+  .svc-chip{
+    display:inline-flex;align-items:center;height:26px;padding:0 10px;
+    background:rgba(216,171,92,0.14);color:var(--gold-bright);
+    border:1px solid rgba(216,171,92,0.32);border-radius:999px;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;
+  }
+  .svc-front .svc-chip{margin-top:18px;}
+
+  /* ---------- 3D FIELD LAB ---------- */
+  #field-lab{
+    background:
+      radial-gradient(circle at 8% 18%, rgba(251,146,60,.16), transparent 28%),
+      linear-gradient(180deg,#fff7ed 0%,#ffffff 100%);
+    color:var(--ink);overflow:hidden;
+  }
+  .field-lab-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:center;margin-top:50px;}
+  .field-lab-copy p{max-width:440px;color:var(--muted);font-size:15.5px;line-height:1.75;margin-top:20px;}
+  .field-lab-copy .section-tag{color:var(--gold-bright);}
+  .field-lab-copy h2{color:var(--ink);}
+  .field-lab-tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px;}
+  .field-lab-tool{border:1px solid rgba(234,88,12,.24);background:#fff;color:var(--ink);padding:10px 14px;border-radius:10px;font:800 12px var(--sans);cursor:pointer;box-shadow:0 12px 30px -24px rgba(15,23,42,.55);}
+  .field-lab-tool.is-active,.field-lab-tool:hover{background:#ea580c;border-color:#fdba74;color:#fff;}
+  .field-lab-stage{position:relative;min-height:450px;border:1px solid rgba(234,88,12,.24);border-radius:22px;background:radial-gradient(circle at 50% 30%,rgba(251,146,60,.22),transparent 30%),linear-gradient(145deg,#f8fafc,#ffedd5);box-shadow:0 30px 80px -44px rgba(154,52,18,.62);overflow:hidden;}
+  #field-lab-canvas{display:block;width:100%;height:450px;cursor:grab;}
+  #field-lab-canvas:active{cursor:grabbing;}
+  .field-lab-fallback{display:none;position:absolute;inset:0;align-items:center;justify-content:center;text-align:center;padding:30px;color:var(--muted);font:700 13px/1.6 var(--sans);letter-spacing:.04em;}
+  .field-lab-stage.is-fallback #field-lab-canvas{display:none;}
+  .field-lab-stage.is-fallback .field-lab-fallback{display:flex;}
+  .field-lab-hud{position:absolute;left:18px;right:18px;bottom:16px;display:flex;justify-content:space-between;gap:12px;pointer-events:none;font:800 10px var(--mono);letter-spacing:.08em;color:rgba(15,23,42,.58);}
+  .field-lab-hud span:last-child{color:var(--gold-bright);}
+
+  /* ---------- PROJECTS ---------- */
+  #projects{
+    background:
+      radial-gradient(circle at 12% 6%, rgba(251,146,60,0.12), transparent 26%),
+      linear-gradient(180deg,#ffffff 0%,#fff7ed 100%);
+    color:var(--ink);
+  }
+  .proj-top{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:56px;align-items:end;}
+  .proj-top p{font-size:15.5px;line-height:1.75;color:var(--muted);}
+  .proj-stat{text-align:right;}
+  .proj-stat .big{font-family:var(--serif);font-size:96px;line-height:1;color:var(--gold-bright);}
+  .proj-stat .cap{font-family:var(--sans);font-weight:800;font-size:12.5px;letter-spacing:.05em;color:var(--muted);margin-top:8px;}
+  .proj-scroll-wrap{position:relative;margin-top:64px;}
+  .proj-list{
+    display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;padding:8px 4px 24px;
+    scrollbar-width:thin;scrollbar-color:var(--gold-bright) rgba(15,23,42,0.10);
+  }
+  .proj-list::-webkit-scrollbar{height:8px;}
+  .proj-list::-webkit-scrollbar-track{background:rgba(15,23,42,0.10);border-radius:999px;}
+  .proj-list::-webkit-scrollbar-thumb{background:var(--gold-bright);border-radius:999px;}
+  .proj-row{
+    position:relative;flex:0 0 min(430px, 82vw);min-height:260px;
+    scroll-snap-align:center;display:flex;flex-direction:column;justify-content:space-between;
+    padding:30px;border:1px solid rgba(216,171,92,0.32);border-radius:18px;
+    overflow:hidden;background:var(--ink-2);
+    background-image:linear-gradient(145deg, rgba(13,43,39,0.35), rgba(138,50,48,0.55)), var(--project-bg);
+    background-size:cover;background-position:center;
+    box-shadow:0 22px 46px -24px rgba(154,52,18,0.62);
+  }
+  .proj-row::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(13,43,39,0.62), rgba(13,43,39,0.45) 42%, rgba(67,20,18,0.9));
+    pointer-events:none;
+  }
+  .proj-row::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg, rgba(13,43,39,0.64), transparent 65%);
+    pointer-events:none;
+  }
+  .proj-row > *{position:relative;z-index:1;}
+  .proj-row .tag{font-family:var(--mono);font-size:13px;color:var(--gold-bright);letter-spacing:.08em;}
+  .proj-row p{font-size:18px;line-height:1.6;color:rgba(243,240,231,0.88);margin-top:32px;}
+  .proj-type{
+    margin-top:28px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+    color:rgba(243,240,231,0.56);
+  }
+  .proj-scroll-btn{
+    position:absolute;top:50%;z-index:2;width:50px;height:50px;border-radius:50%;
+    border:2px solid #fff;background:#f36f1b;color:#fff;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    box-shadow:0 14px 30px rgba(0,0,0,0.32);transform:translateY(-50%);
+  }
+  .proj-scroll-btn:hover{background:#ff812f;}
+  .proj-scroll-btn svg{width:23px;height:23px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .proj-scroll-btn.prev{left:-25px;}
+  .proj-scroll-btn.next{right:-25px;}
+
+  .proj-gallery{
+    margin-top:56px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+  }
+  .proj-card{position:relative;overflow:hidden;border-radius:2px;height:230px;}
+  .proj-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+  .proj-card:hover img{transform:scale(1.07);}
+  .proj-card{border-radius:18px;box-shadow:var(--card-shadow);}
+  .proj-card .overlay{
+    position:absolute;inset:0;background:linear-gradient(180deg, rgba(15,23,42,0) 35%, rgba(15,23,42,0.82) 100%);
+  }
+  .proj-card .info{position:absolute;left:16px;right:16px;bottom:14px;}
+  .proj-card .info .t{font-family:var(--serif);font-size:17px;color:#fff;}
+  .proj-card .info .s{font-family:var(--mono);font-size:10.5px;color:var(--gold-bright);letter-spacing:.05em;margin-top:3px;}
+
+  /* ---------- IMPACT BANNER ---------- */
+  #impact{
+    position:relative;padding:90px 0;color:var(--ink);
+    background:linear-gradient(135deg,#fff7ed 0%,#ffffff 58%,#ffedd5 100%);
+    overflow:hidden;
+  }
+  #impact img.bg{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:0.12;filter:saturate(0.7);
+  }
+  #impact .veil{position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,247,237,0.92), rgba(255,255,255,0.74));}
+  #impact .inner{position:relative;z-index:2;}
+  .impact-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px;
+    background:transparent;
+  }
+  .impact-cell{background:var(--surface);padding:30px 26px;border:1px solid rgba(251,146,60,0.24);border-radius:18px;box-shadow:var(--card-shadow);}
+  .impact-cell .big{font-family:var(--serif);font-size:44px;color:var(--gold-bright);}
+  .impact-cell .lbl{font-family:var(--sans);font-weight:800;font-size:11.5px;color:var(--muted);margin-top:6px;letter-spacing:.04em;}
+
+  /* ---------- CONTACT ---------- */
+  #contact{background:var(--paper);}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;margin-top:56px;}
+  .contact-grid p.lead{font-size:16px;line-height:1.7;color:var(--muted);max-width:460px;}
+  .contact-list{margin-top:8px;}
+  .contact-item{
+    display:flex;gap:18px;padding:20px 0;border-top:1px solid var(--line-dark);
+  }
+  .contact-item:last-child{border-bottom:1px solid var(--line-dark);}
+  .contact-item .k{font-family:var(--mono);font-size:11.5px;color:var(--maroon);letter-spacing:.05em;width:110px;flex-shrink:0;padding-top:2px;}
+  .contact-item .v{font-size:16px;color:var(--ink-2);}
+  .contact-item a:hover{color:var(--maroon);}
+
+  footer{
+    background:#0f172a;color:rgba(248,250,252,0.68);
+    padding:30px 0;font-family:var(--mono);font-size:12px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  }
+  .footer-brand{display:flex;align-items:center;gap:16px;color:rgba(248,250,252,0.78);}
+  .footer-brand .jsr-logo{width:106px;height:54px;}
+
+  /* ---------- FLOATING ACTION BUTTONS ---------- */
+  .floating-actions{
+    position:fixed;right:24px;bottom:24px;z-index:90;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .float-btn{
+    width:48px;height:48px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid rgba(243,240,231,0.28);
+    color:var(--paper);box-shadow:0 12px 30px rgba(0,0,0,0.22);
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .float-btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,0,0,0.28);}
+  .float-btn svg{width:21px;height:21px;stroke:currentColor;stroke-width:2.3;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .float-top{background:var(--gold-bright);color:var(--ink);}
+  .float-call{background:var(--maroon);}
+  .float-chat{background:#24b45b;}
+  .float-chat svg{fill:none;}
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+
+  @media (max-width:860px){
+    nav.links{display:none;}
+    .about-grid, .welcome-inner, .vm-grid, .proj-top, .contact-grid{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:1fr 1fr;}
+    .field-lab-grid{grid-template-columns:1fr;gap:30px;}
+    .proj-stat{text-align:left;}
+    .hero{min-height:680px;}
+    .hero-content{max-width:calc(100% - 40px);margin:130px 20px 40px;padding:28px;}
+    .showcase-strip{grid-template-columns:1fr 1fr;}
+    .proj-gallery{grid-template-columns:1fr 1fr;}
+    .proj-scroll-btn.prev{left:8px;}
+    .proj-scroll-btn.next{right:8px;}
+    .impact-grid{grid-template-columns:1fr 1fr;}
+    .about-media img{height:300px;}
+  }
+  @media (max-width:560px){
+    .wrap{padding:0 20px;}
+    .brand .jsr-logo{width:68px;height:36px;}
+    .brand-text{display:none;}
+    .demo-modal{padding:14px;}
+    .demo-dialog{border-radius:16px;padding:24px 16px 20px;}
+    .demo-title{font-size:24px;margin-left:34px;margin-right:34px;}
+    .demo-copy{font-size:14px;}
+    .demo-field{grid-template-columns:24px 1fr;padding:0 12px;}
+    .demo-field input,.demo-field textarea{font-size:14px;}
+    .demo-submit{font-size:15px;}
+    .floating-actions{right:16px;bottom:16px;gap:8px;}
+    .float-btn{width:44px;height:44px;}
+    .float-btn svg{width:19px;height:19px;}
+    .proj-row{flex-basis:86vw;min-height:250px;padding:26px 24px;}
+    .proj-row p{font-size:16px;}
+    .proj-scroll-btn{width:44px;height:44px;}
+    .hero{min-height:640px;}
+    .hero-content{max-width:calc(100% - 28px);margin:112px 14px 30px;padding:22px;border-radius:22px;}
+    h1.hero-title{font-size:clamp(30px, 10vw, 42px);}
+    .hero-sub{font-size:14.5px;}
+    .hero-actions a{width:100%;text-align:center;}
+    .services-grid{grid-template-columns:1fr;}
+    .field-lab-stage,#field-lab-canvas{min-height:340px;height:340px;}
+    .hero-strip{flex-direction:column;}
+    .hero-strip .cell{border-right:none;border-bottom:1px solid var(--line);}
+    .showcase-strip{grid-template-columns:1fr;}
+    .proj-gallery{grid-template-columns:1fr;}
+    .impact-grid{grid-template-columns:1fr;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav" id="siteNav">
+  <div class="brand">
+    <img class="jsr-logo" src="images/logo.png" alt="JSR logo">
+    <span class="brand-text">JSR Technology</span>
+  </div>
+  <nav class="links">
+    <a href="#about">About</a>
+    <a href="#vm">Vision &amp; Mission</a>
+    <a href="#services">Services</a>
+    <a href="#field-lab">3D Lab</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="nav-cta" type="button" data-open-demo>Request A Demo</button>
+</header>
+
+<div class="demo-modal" id="demoModal" aria-hidden="true">
+  <div class="demo-backdrop" data-close-demo></div>
+  <div class="demo-dialog" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+    <button class="demo-close" type="button" aria-label="Close request demo modal" data-close-demo>&times;</button>
+    <h2 class="demo-title" id="demoTitle">Request A Demo</h2>
+    <p class="demo-copy">Share your project details and our team will walk you through the survey, documentation, and approval path.</p>
+    <form class="demo-form">
+      <label class="demo-field">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+        <input type="text" name="name" placeholder="Your Name" autocomplete="name" required>
+      </label>
+      <label class="demo-field">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        <input type="email" name="email" placeholder="Email Address" autocomplete="email" required>
+      </label>
+      <label class="demo-field">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 11.19 19a19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.13.96.35 1.89.66 2.78a2 2 0 0 1-.45 2.11L8 9.88a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.89.31 1.82.53 2.78.66A2 2 0 0 1 22 16.92z"/></svg>
+        <input type="tel" name="phone" placeholder="Phone Number" autocomplete="tel" required>
+      </label>
+      <label class="demo-field">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.15 7-12a7 7 0 0 0-14 0c0 6.85 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <input type="text" name="location" placeholder="Project Location" autocomplete="street-address">
+      </label>
+      <label class="demo-field">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 2 4 4L8 20l-6 2 2-6L18 2z"/></svg>
+        <textarea name="message" placeholder="Your Message"></textarea>
+      </label>
+      <button class="demo-submit" type="submit">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        Request A Call Back
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <img class="hero-photo" src="https://commons.wikimedia.org/wiki/Special:FilePath/DJI%200191-Edit%20foto-Tomazs%20Majewski.jpg" alt="Aerial drone view of terrain" loading="eager">
+  <div class="hero-photo-veil"></div>
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-grid-overlay"></div>
+  <div class="wrap hero-content">
+    <div class="eyebrow-coord">
+      <span>28.6139° N, 77.2090° E</span><span>NEW DELHI, IN</span><span>EST. SURVEY &amp; GEOSPATIAL PRACTICE</span>
+    </div>
+    <h1 class="hero-title">Every site has coordinates. <em>We find them precisely.</em></h1>
+    <p class="hero-sub">JSR Technology and Services LLP delivers high-accuracy surveying and geospatial data — from LiDAR and DGPS to 3D digital twins — for infrastructure, land development, and regulatory projects across India.</p>
+    <div class="hero-actions">
+      <a class="btn-solid" href="#services">Explore our services</a>
+      <a class="btn-ghost" href="#contact">Talk to us</a>
+    </div>
+  </div>
+  <div class="hero-strip wrap">
+    <div class="cell"><div class="num">400+</div><div class="lbl">PROJECTS DELIVERED</div></div>
+    <div class="cell"><div class="num">9</div><div class="lbl">CORE SURVEY DISCIPLINES</div></div>
+    <div class="cell"><div class="num">LiDAR</div><div class="lbl">/ DGPS / GPR / MATTERPORT</div></div>
+    <div class="cell"><div class="num">AAI</div><div class="lbl">COMPLIANT AIRPORT SURVEYS</div></div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-tag">01 — ABOUT THE COMPANY</div>
+    <h2 class="section-title">A professionally managed geospatial partner, built on <em>field-verified accuracy.</em></h2>
+    <div class="about-grid">
+      <div>
+        <p>JSR Technology and Services is a professionally managed surveying and geospatial solutions company delivering high-accuracy data and dependable outputs across infrastructure, land development, and regulatory projects. Our core capabilities include LiDAR surveys, DGPS, Total Station surveys, physical site measurements, topographic mapping, and 2D/3D CAD drawings, supported by advanced workflows and stringent quality controls.</p>
+        <p>We also specialize in 3D virtual tours, Matterport-based documentation, and digital site visualization, enabling clients to gain precise spatial understanding for planning, monitoring, and presentation purposes. With deep expertise in airport surveys and NOC-related documentation, we ensure full compliance with statutory and aviation authority requirements.</p>
+        <div class="quote-block">
+          “Precision defines our process, and reliability defines our reputation. Every survey we deliver is engineered to support confident planning and compliant execution.”
+          <cite>JSR TECHNOLOGY AND SERVICES LLP</cite>
+        </div>
+      </div>
+      <div class="about-media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aerial%20view%20of%20winding%20river%20(Unsplash).jpg" alt="Aerial view of terrain mapped for survey" loading="lazy">
+        <div class="tag-chip">FIELD DATA / DIGITAL ELEVATION MODEL</div>
+      </div>
+    </div>
+
+    <div class="showcase-strip">
+      <div class="shot">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Drone%20Photography%20Hillcrest%20San%20Diego.jpg" alt="Drone aerial mapping of a developed area" loading="lazy">
+        <div class="cap">DRONE &amp; AERIAL TOPOGRAPHIC CAPTURE</div>
+      </div>
+      <div class="shot">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hoover%20dam%20from%20air.jpg" alt="Aerial view of a dam for hydro infrastructure survey" loading="lazy">
+        <div class="cap">DAM &amp; INFRASTRUCTURE SURVEY</div>
+      </div>
+      <div class="shot">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/DJI%200191-Edit%20foto-Tomazs%20Majewski.jpg" alt="Aerial view of terrain and vegetation" loading="lazy">
+        <div class="cap">TERRAIN &amp; LAND MODELLING</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WELCOME MESSAGE ================= -->
+<section id="welcome" class="on-dark">
+  <div class="wrap">
+    <div class="section-tag on-dark">02 — WELCOME MESSAGE</div>
+    <h2 class="section-title">A note from our <em>Managing Director.</em></h2>
+    <div class="welcome-inner">
+      <div class="md-card">
+        <div class="initial">AK</div>
+        <div class="name">Amit Kumar</div>
+        <div class="role">MD, JSR TECHNOLOGIES AND SERVICES</div>
+      </div>
+      <div class="welcome-text">
+        <p>Our journey has been guided by a commitment to precision, continuous learning, and the adoption of reliable surveying technologies. With a capable team and a clear focus on quality, we strive to support our clients with survey solutions that are practical, compliant, and dependable.</p>
+        <p>We value long-term relationships built on trust, transparency, and consistent delivery. We look forward to collaborating with you and becoming a dependable partner in your projects. Please explore our services and feel free to get in touch with us to discuss how we can support your requirements.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VISION & MISSION ================= -->
+<section id="vm">
+  <div class="wrap">
+    <div class="section-tag">03 — VISION &amp; MISSION</div>
+    <h2 class="section-title">Where we're headed, and <em>how we get there.</em></h2>
+  </div>
+  <div class="vm-grid wrap" style="margin-left:auto;margin-right:auto;max-width:1180px;padding:0;">
+    <div class="vm-card">
+      <h3>Our Vision</h3>
+      <p>To be a trusted geospatial and surveying partner across India, known for precision, reliability, and technical excellence. We aim to support informed planning and compliant development through accurate survey data, advanced technologies, and professional integrity — creating lasting value for clients, consultants, and regulatory authorities while contributing to infrastructure and urban development.</p>
+    </div>
+    <div class="vm-card">
+      <h3>Our Mission</h3>
+      <p>To execute precise and dependable surveying services by integrating advanced field technologies, robust methodologies, and disciplined quality control. We focus on delivering actionable survey outputs, accurate drawings, and compliant documentation that support approvals, planning, and on-ground execution — consistently meeting project timelines and client expectations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section id="services">
+  <div class="wrap">
+    <div class="section-tag">04 — OUR SERVICES</div>
+    <div class="services-head">
+      <h2 class="section-title">End-to-end surveying and geospatial solutions, <em>site to server.</em></h2>
+      <p>From aerial LiDAR to underground GPR, and from CAD drawings to Matterport digital twins — every deliverable is built for planning, design, and regulatory approval.</p>
+    </div>
+  </div>
+  <div class="services-grid wrap">
+    <button type="button" class="svc-card" aria-pressed="false">
+      <span class="svc-inner">
+        <span class="svc-face svc-front">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Drone%20Photography%20Hillcrest%20San%20Diego.jpg" alt="Drone capturing aerial survey data" loading="lazy">
+          <span class="svc-content"><span class="svc-id">SVY / 01</span><span class="svc-name">Aerial Topographic Survey</span><span class="svc-chip">CLICK TO VIEW</span></span>
+        </span>
+        <span class="svc-face svc-back">
+          <span><span class="svc-id">SVY / 01</span><span class="svc-name">Aerial Topographic Survey</span><span class="svc-more">Drones, LiDAR, and photogrammetry capture terrain data over large and inaccessible areas. Outputs include contour maps, DEMs, orthomosaics, and CAD/GIS-ready survey files.</span></span>
+          <span class="svc-meta"><span>DRONE + LIDAR</span><span>CAD / GIS</span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="svc-card" aria-pressed="false">
+      <span class="svc-inner">
+        <span class="svc-face svc-front">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Total%20station%20construction%20set-out%20at%20sunset.jpg" alt="Total station survey equipment on site" loading="lazy">
+          <span class="svc-content"><span class="svc-id">SVY / 02</span><span class="svc-name">Traditional Topographic Survey</span><span class="svc-chip">CLICK TO VIEW</span></span>
+        </span>
+        <span class="svc-face svc-back">
+          <span><span class="svc-id">SVY / 02</span><span class="svc-name">Traditional Topographic Survey</span><span class="svc-more">Ground-based DGPS and Total Station measurements capture precise spot levels, structures, utilities, and reference points for layout planning, design coordination, and approvals.</span></span>
+          <span class="svc-meta"><span>DGPS + TS</span><span>SPOT LEVELS</span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="svc-card" aria-pressed="false">
+      <span class="svc-inner">
+        <span class="svc-face svc-front">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/General%20Land%20Office%20Survey%20Marker%20-%20panoramio.jpg" alt="Land survey marker used for boundary reference" loading="lazy">
+          <span class="svc-content"><span class="svc-id">SVY / 03</span><span class="svc-name">Land Demarcation &amp; Boundary Survey</span><span class="svc-chip">CLICK TO VIEW</span></span>
+        </span>
+        <span class="svc-face svc-back">
+          <span><span class="svc-id">SVY / 03</span><span class="svc-name">Land Demarcation &amp; Boundary Survey</span><span class="svc-more">Boundary verification, pillar fixing, and area confirmation are aligned with revenue records to give landowners, developers, and consultants clear legal and planning references.</span></span>
+          <span class="svc-meta"><span>BOUNDARY</span><span>PILLAR FIXING</span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="svc-card" aria-pressed="false">
+      <span class="svc-inner">
+        <span class="svc-face svc-front">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ground%20Penetrating%20Radar%20in%20use.jpg" alt="Ground penetrating radar equipment in use" loading="lazy">
+          <span class="svc-content"><span class="svc-id">SVY / 04</span><span class="svc-name">Ground-Penetrating Radar (GPR)</span><span class="svc-chip">CLICK TO VIEW</span></span>
+        </span>
+        <span class="svc-face svc-back">
+          <span><span class="svc-id">SVY / 04</span><span class="svc-name">Ground-Penetrating Radar (GPR)</span><span class="svc-more">Non-invasive subsurface scanning detects buried pipes, cables, voids, and utility conflicts before excavation. Findings can be integrated into drawing sets and utility GIS layers.</span></span>
+          <span class="svc-meta"><span>SUBSURFACE</span><span>UTILITY GIS</span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="svc-card" aria-pressed="false">
+      <span class="svc-inner">
+        <span class="svc-face svc-front">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aerial%20view%20of%20Kempegowda%20International%20Airport.jpg" alt="Aerial view of airport infrastructure" loading="lazy">
+          <span class="svc-content"><span class="svc-id">SVY / 05</span><span class="svc-name">Airport Survey &amp; Documentation</span><span class="svc-chip">CLICK TO VIEW</span></span>
+        </span>
+        <span class="svc-face svc-back">
+          <span><span class="svc-id">SVY / 05</span><span class="svc-name">Airport Survey &amp; Documentation</span><span class="svc-more">Height verification and obstacle limitation surveys are prepared to AAI guidelines, helping projects near airports move through NOC documentation with dependable survey evidence.</span></span>
+          <span class="svc-meta"><span>AAI NOC</span><span>OLS SURVEY</span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="svc-card" aria-pressed="false">
+      <span class="svc-inner">
+        <span class="svc-face svc-front">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Screenshot%20qgis.jpg" alt="GIS mapping interface with spatial layers" loading="lazy">
+          <span class="svc-content"><span class="svc-id">GIS / 06</span><span class="svc-name">GIS Mapping</span><span class="svc-chip">CLICK TO VIEW</span></span>
+        </span>
+        <span class="svc-face svc-back">
+          <span><span class="svc-id">GIS / 06</span><span class="svc-name">GIS Mapping</span><span class="svc-more">Spatial and attribute data are structured into clean, layered digital maps for land records, planning, utility mapping, asset registers, and decision-ready geospatial dashboards.</span></span>
+          <span class="svc-meta"><span>LAYERED DATA</span><span>MAP OUTPUTS</span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="svc-card" aria-pressed="false">
+      <span class="svc-inner">
+        <span class="svc-face svc-front">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/GIS%20map.png" alt="Municipal GIS map with property and road layers" loading="lazy">
+          <span class="svc-content"><span class="svc-id">GIS / 07</span><span class="svc-name">GIS-Based Municipal &amp; Property Mapping</span><span class="svc-chip">CLICK TO VIEW</span></span>
+        </span>
+        <span class="svc-face svc-back">
+          <span><span class="svc-id">GIS / 07</span><span class="svc-name">GIS-Based Municipal &amp; Property Mapping</span><span class="svc-more">Centralised, OGC-compliant platforms support Urban Local Bodies with property tax mapping, utilities, ward boundaries, road inventories, and field-to-office data workflows.</span></span>
+          <span class="svc-meta"><span>ULB SYSTEMS</span><span>OGC READY</span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="svc-card" aria-pressed="false">
+      <span class="svc-inner">
+        <span class="svc-face svc-front">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/3D-Floor-Plan.jpg" alt="3D model and floor plan visualization" loading="lazy">
+          <span class="svc-content"><span class="svc-id">3D / 08</span><span class="svc-name">3D Modelling &amp; Scan-to-BIM</span><span class="svc-chip">CLICK TO VIEW</span></span>
+        </span>
+        <span class="svc-face svc-back">
+          <span><span class="svc-id">3D / 08</span><span class="svc-name">3D Modelling &amp; Scan-to-BIM</span><span class="svc-more">Survey data is converted into accurate 3D models and LOD-aligned BIM outputs for design review, clash detection, renovation planning, and facility management.</span></span>
+          <span class="svc-meta"><span>LOD BIM</span><span>3D MODELS</span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="svc-card" aria-pressed="false">
+      <span class="svc-inner">
+        <span class="svc-face svc-front">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lincoln%20Memorial%20Interior%2C%20360%20degrees%20%28acf47c1c-9601-4b1b-9225-cf25f6a89bf9%29.jpg" alt="360 degree interior virtual tour panorama" loading="lazy">
+          <span class="svc-content"><span class="svc-id">3D / 09</span><span class="svc-name">3D Virtual Tours &amp; Digital Twins</span><span class="svc-chip">CLICK TO VIEW</span></span>
+        </span>
+        <span class="svc-face svc-back">
+          <span><span class="svc-id">3D / 09</span><span class="svc-name">3D Virtual Tours &amp; Digital Twins</span><span class="svc-more">Immersive Matterport-style walkthroughs make remote inspection, documentation, stakeholder presentation, and asset review easier through clear navigable visual records.</span></span>
+          <span class="svc-meta"><span>360 TOUR</span><span>DIGITAL TWIN</span></span>
+        </span>
+      </span>
+    </button>
+  </div>
+</section>
+
+<!-- ================= 3D FIELD LAB ================= -->
+<section id="field-lab">
+  <div class="wrap field-lab-grid">
+    <div class="field-lab-copy">
+      <div class="section-tag">05 — 3D FIELD LAB</div>
+      <h2 class="section-title">From drone capture to <em>survey-ready spatial data.</em></h2>
+      <p>Explore a realistic 3D preview of JSR's field workflow: drone LiDAR capture, terrain contours, DGPS control points, utility-ready scan grids, and scan-to-BIM building massing. Drag the scene to orbit and switch modes to inspect each layer.</p>
+      <div class="field-lab-tools" role="group" aria-label="3D viewer modes">
+        <button class="field-lab-tool is-active" type="button" data-field-mode="drone">Drone LiDAR capture</button>
+        <button class="field-lab-tool" type="button" data-field-mode="terrain">Contours &amp; DGPS points</button>
+        <button class="field-lab-tool" type="button" data-field-mode="scan">Point cloud &amp; BIM</button>
+        <button class="field-lab-tool" type="button" data-field-reset>Reset view</button>
+      </div>
+    </div>
+    <div class="field-lab-stage">
+      <canvas id="field-lab-canvas" aria-label="Interactive 3D drone and survey terrain viewer"></canvas>
+      <div class="field-lab-fallback">3D preview unavailable in this browser.<br>Enable WebGL or open the page while connected to load the viewer.</div>
+      <div class="field-lab-hud"><span>ORBIT / DRAG TO ROTATE</span><span id="field-lab-status">DRONE LIDAR CAPTURE</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects" class="on-dark">
+  <div class="wrap">
+    <div class="section-tag on-dark">05 — OUR PROJECTS</div>
+    <div class="proj-top">
+      <div>
+        <h2 class="section-title">400+ surveys, <em>one standard.</em></h2>
+        <p style="margin-top:20px;">JSR Technology and Services LLP has executed 400+ surveying and geospatial projects across infrastructure, institutional, commercial, and regulatory domains — spanning high-sensitivity sites, complex urban environments, and large-scale development corridors that demand strict accuracy, coordination, and compliance.</p>
+      </div>
+      <div class="proj-stat">
+        <div class="big">400+</div>
+        <div class="cap">SURVEYING &amp; GEOSPATIAL PROJECTS DELIVERED</div>
+      </div>
+    </div>
+
+    <div class="proj-gallery">
+      <div class="proj-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hoover%20dam%20from%20air.jpg" alt="Dam site survey project" loading="lazy">
+        <div class="overlay"></div>
+        <div class="info"><div class="t">Dam Site Survey</div><div class="s">HYDROPOWER</div></div>
+      </div>
+      <div class="proj-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Drone%20Photography%20Hillcrest%20San%20Diego.jpg" alt="Corridor and urban mapping project" loading="lazy">
+        <div class="overlay"></div>
+        <div class="info"><div class="t">Corridor &amp; Urban Mapping</div><div class="s">INFRASTRUCTURE</div></div>
+      </div>
+      <div class="proj-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aerial%20view%20of%20winding%20river%20(Unsplash).jpg" alt="Aerial topographic survey project" loading="lazy">
+        <div class="overlay"></div>
+        <div class="info"><div class="t">Aerial Topographic Survey</div><div class="s">LAND DEVELOPMENT</div></div>
+      </div>
+      <div class="proj-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/DJI%200191-Edit%20foto-Tomazs%20Majewski.jpg" alt="Land demarcation and terrain project" loading="lazy">
+        <div class="overlay"></div>
+        <div class="info"><div class="t">Land Demarcation Survey</div><div class="s">REGULATORY</div></div>
+      </div>
+    </div>
+
+    <div class="proj-scroll-wrap">
+      <button class="proj-scroll-btn prev" type="button" data-project-scroll="prev" aria-label="Previous project">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <div class="proj-list" id="projectScroller">
+        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/Drone%20Photography%20Hillcrest%20San%20Diego.jpg');">
+          <div><div class="tag">01</div><p>Executed large-area aerial and traditional topographic surveys for infrastructure, land development, and urban planning — delivering high-accuracy contours, elevation models, and CAD-ready drawings.</p></div>
+          <div class="proj-type">TOPOGRAPHIC SURVEYS</div>
+        </div>
+        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/DJI%200191-Edit%20foto-Tomazs%20Majewski.jpg');">
+          <div><div class="tag">02</div><p>Conducted LiDAR and DGPS-based surveys for complex sites requiring precise terrain modeling, volumetric analysis, and engineering-grade data outputs.</p></div>
+          <div class="proj-type">LIDAR + DGPS</div>
+        </div>
+        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/Aerial%20view%20of%20Kempegowda%20International%20Airport.jpg');">
+          <div><div class="tag">03</div><p>Completed airport NOC and aviation-compliant surveys, including height verification and obstacle limitation studies, supporting statutory approvals from relevant authorities.</p></div>
+          <div class="proj-type">AIRPORT NOC</div>
+        </div>
+        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/General%20Land%20Office%20Survey%20Marker%20-%20panoramio.jpg');">
+          <div><div class="tag">04</div><p>Delivered land demarcation and boundary surveys using DGPS and Total Station, ensuring alignment with revenue records and statutory norms.</p></div>
+          <div class="proj-type">BOUNDARY SURVEYS</div>
+        </div>
+        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/Screenshot%20qgis.jpg');">
+          <div><div class="tag">05</div><p>Developed GIS mapping and spatial databases for land records, utilities, and planning studies, enabling structured data management and analysis.</p></div>
+          <div class="proj-type">GIS DATABASES</div>
+        </div>
+        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/3D-Floor-Plan.jpg');">
+          <div><div class="tag">06</div><p>Produced 3D models, scan-to-BIM outputs, and accurate as-built documentation for renovation, retrofit, and asset management applications.</p></div>
+          <div class="proj-type">SCAN-TO-BIM</div>
+        </div>
+        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/Lincoln%20Memorial%20Interior%2C%20360%20degrees%20%28acf47c1c-9601-4b1b-9225-cf25f6a89bf9%29.jpg');">
+          <div><div class="tag">07</div><p>Created 3D virtual tours and digital twins using Matterport technology for site documentation, remote inspections, and stakeholder presentations.</p></div>
+          <div class="proj-type">DIGITAL TWINS</div>
+        </div>
+        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/Hoover%20dam%20from%20air.jpg');">
+          <div><div class="tag">08</div><p>Managed projects involving tight timelines, multi-agency coordination, and regulatory sensitivity — consistently delivering compliant, decision-ready outputs.</p></div>
+          <div class="proj-type">REGULATORY DELIVERY</div>
+        </div>
+      </div>
+      <button class="proj-scroll-btn next" type="button" data-project-scroll="next" aria-label="Next project">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= IMPACT ================= -->
+<section id="impact">
+  <img class="bg" src="https://commons.wikimedia.org/wiki/Special:FilePath/DJI%200191-Edit%20foto-Tomazs%20Majewski.jpg" alt="Aerial landscape background">
+  <div class="veil"></div>
+  <div class="wrap inner">
+    <div class="section-tag on-dark">07 — OUR IMPACT</div>
+    <h2 class="section-title">Numbers that <em>matter.</em></h2>
+    <div class="impact-grid">
+      <div class="impact-cell"><div class="big">400+</div><div class="lbl">PROJECTS COMPLETED</div></div>
+      <div class="impact-cell"><div class="big">9</div><div class="lbl">CORE SURVEY DISCIPLINES</div></div>
+      <div class="impact-cell"><div class="big">AAI</div><div class="lbl">COMPLIANT AIRPORT SURVEYS</div></div>
+      <div class="impact-cell"><div class="big">PAN-IN</div><div class="lbl">OPERATIONS ACROSS INDIA</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="wrap">
+    <div class="section-tag">08 — GET IN TOUCH</div>
+    <h2 class="section-title">Precision begins with <em>the right conversation.</em></h2>
+    <div class="contact-grid">
+      <p class="lead">We welcome inquiries, collaborations, and project discussions from organizations seeking dependable surveying and spatial intelligence solutions. Reach out and take the first step toward data-driven clarity and confident decision-making.</p>
+      <div class="contact-list">
+        <div class="contact-item"><div class="k">PHONE</div><div class="v"><a href="tel:18008895031">1800-889-5031</a></div></div>
+        <div class="contact-item"><div class="k">EMAIL</div><div class="v"><a href="mailto:contact@jsrfg.in">contact@jsrfg.in</a></div></div>
+        <div class="contact-item"><div class="k">WEBSITE</div><div class="v"><a href="https://www.jsrfg.in" target="_blank" rel="noopener">www.jsrfg.in</a></div></div>
+        <div class="contact-item"><div class="k">ADDRESS</div><div class="v">WZ 61/8A, Street No 17, Vashisht Park, Pankha Road, New Delhi, 110046</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;width:100%;flex-wrap:wrap;gap:16px;">
+    <span class="footer-brand">
+      <img class="jsr-logo" src="images/logo.png" alt="JSR logo">
+      <span>© 2026 JSR TECHNOLOGY AND SERVICES LLP</span>
+    </span>
+    <span>SURVEYING · GEOSPATIAL · GIS · 3D DOCUMENTATION</span>
+  </div>
+</footer>
+
+<div class="floating-actions" aria-label="Quick actions">
+  <a class="float-btn float-top" href="#top" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>
+    <span class="sr-only">Scroll to top</span>
+  </a>
+  <a class="float-btn float-call" href="tel:18008895031" aria-label="Call JSR Technology">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 11.19 19a19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.13.96.35 1.89.66 2.78a2 2 0 0 1-.45 2.11L8 9.88a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.89.31 1.82.53 2.78.66A2 2 0 0 1 22 16.92z"/></svg>
+    <span class="sr-only">Call JSR Technology</span>
+  </a>
+  <a class="float-btn float-chat" href="https://wa.me/9118008895031" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.49A11.82 11.82 0 0 0 12.08 0C5.5 0 .16 5.34.16 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.28-1.65a11.9 11.9 0 0 0 5.8 1.48H12.09c6.57 0 11.91-5.34 11.91-11.92a11.84 11.84 0 0 0-3.48-8.42z" stroke="none" fill="currentColor"/><path d="M8.1 6.7c-.25-.55-.51-.56-.75-.57h-.64c-.22 0-.58.08-.88.4-.3.33-1.16 1.13-1.16 2.76s1.19 3.2 1.35 3.43c.17.22 2.3 3.68 5.66 5.01 2.8 1.1 3.37.88 3.98.82.61-.05 1.98-.8 2.26-1.58.28-.78.28-1.45.19-1.59-.08-.14-.3-.22-.64-.39-.33-.16-1.98-.97-2.29-1.08-.3-.11-.53-.17-.75.16-.22.34-.86 1.08-1.05 1.31-.2.22-.39.25-.72.08-.33-.16-1.41-.52-2.69-1.66-.99-.89-1.66-1.98-1.86-2.31-.19-.34-.02-.52.15-.69.15-.15.33-.39.5-.58.16-.2.22-.34.33-.56.11-.22.05-.42-.03-.58-.08-.17-.73-1.81-.96-2.48z" stroke="none" fill="#fff"/></svg>
+    <span class="sr-only">Chat on WhatsApp</span>
+  </a>
+</div>
+
+<script src="three.min.js"></script>
+<script>
+  // Nav background on scroll
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 40){ nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
+  });
+
+  document.querySelectorAll('.svc-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const isFlipped = card.classList.toggle('is-flipped');
+      card.setAttribute('aria-pressed', String(isFlipped));
+    });
+  });
+
+  const demoModal = document.getElementById('demoModal');
+  const openDemoButton = document.querySelector('[data-open-demo]');
+  const closeDemoButtons = document.querySelectorAll('[data-close-demo]');
+
+  function openDemoModal(){
+    demoModal.classList.add('is-open');
+    demoModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    const firstInput = demoModal.querySelector('input');
+    if(firstInput){ firstInput.focus(); }
+  }
+
+  function closeDemoModal(){
+    demoModal.classList.remove('is-open');
+    demoModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    if(openDemoButton){ openDemoButton.focus(); }
+  }
+
+  if(openDemoButton){
+    openDemoButton.addEventListener('click', openDemoModal);
+  }
+  closeDemoButtons.forEach(button => {
+    button.addEventListener('click', closeDemoModal);
+  });
+  document.addEventListener('keydown', event => {
+    if(event.key === 'Escape' && demoModal.classList.contains('is-open')){
+      closeDemoModal();
+    }
+  });
+  const demoForm = demoModal.querySelector('.demo-form');
+  if(demoForm){
+    demoForm.addEventListener('submit', event => {
+      event.preventDefault();
+      closeDemoModal();
+    });
+  }
+
+  const projectScroller = document.getElementById('projectScroller');
+  let projectAutoScroll;
+
+  function scrollProjects(direction = 1){
+    if(!projectScroller){ return; }
+    const firstCard = projectScroller.querySelector('.proj-row');
+    const cardWidth = firstCard ? firstCard.getBoundingClientRect().width : 420;
+    const scrollAmount = direction * (cardWidth + 22);
+    const nearEnd = projectScroller.scrollLeft + projectScroller.clientWidth >= projectScroller.scrollWidth - 8;
+
+    if(direction > 0 && nearEnd){
+      projectScroller.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+
+    projectScroller.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  }
+
+  function startProjectAutoScroll(){
+    if(!projectScroller){ return; }
+    clearInterval(projectAutoScroll);
+    projectAutoScroll = setInterval(() => scrollProjects(1), 3000);
+  }
+
+  document.querySelectorAll('[data-project-scroll]').forEach(button => {
+    button.addEventListener('click', () => {
+      const direction = button.dataset.projectScroll === 'next' ? 1 : -1;
+      scrollProjects(direction);
+      startProjectAutoScroll();
+    });
+  });
+  startProjectAutoScroll();
+
+  // ============ 3D FIELD LAB VIEWER ============
+  (function(){
+    const canvas = document.getElementById('field-lab-canvas');
+    const stage = document.querySelector('.field-lab-stage');
+    const status = document.getElementById('field-lab-status');
+    if(!canvas || !stage){ return; }
+    if(!window.THREE){ stage.classList.add('is-fallback'); return; }
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+    camera.position.set(7, 5.5, 8);
+    camera.lookAt(0, 1, 0);
+    let renderer;
+    try{
+      renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+    }catch(error){
+      stage.classList.add('is-fallback');
+      return;
+    }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    scene.add(new THREE.HemisphereLight(0xffe4c4, 0x172b3d, 2.2));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
+    keyLight.position.set(4, 8, 5);
+    keyLight.castShadow = true;
+    scene.add(keyLight);
+
+    const drone = new THREE.Group();
+    const shellMaterial = new THREE.MeshStandardMaterial({color:0xf8fafc,metalness:.35,roughness:.22});
+    const darkMaterial = new THREE.MeshStandardMaterial({color:0x111827,metalness:.72,roughness:.2});
+    const carbonMaterial = new THREE.MeshStandardMaterial({color:0x283442,metalness:.65,roughness:.28});
+    const accentMaterial = new THREE.MeshStandardMaterial({color:0xea580c,metalness:.28,roughness:.22,emissive:0x4a1604,emissiveIntensity:.18});
+
+    const droneBody = new THREE.Mesh(new THREE.SphereGeometry(.58,32,16), shellMaterial);
+    droneBody.scale.set(1.75,.34,1.02);
+    droneBody.castShadow = true;
+    drone.add(droneBody);
+
+    const topShell = new THREE.Mesh(new THREE.SphereGeometry(.48,32,16), shellMaterial);
+    topShell.scale.set(1.7,.32,1.05);
+    topShell.position.y = .18;
+    topShell.castShadow = true;
+    drone.add(topShell);
+
+    const nose = new THREE.Mesh(new THREE.ConeGeometry(.28,.7,32), accentMaterial);
+    nose.rotation.x = Math.PI / 2;
+    nose.position.z = -.77;
+    nose.scale.x = 1.45;
+    drone.add(nose);
+
+    const sensorBar = new THREE.Mesh(new THREE.BoxGeometry(.72,.06,.08), darkMaterial);
+    sensorBar.position.set(0,.28,-.45);
+    drone.add(sensorBar);
+
+    const gimbal = new THREE.Group();
+    const gimbalArm = new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,.34,14), darkMaterial);
+    gimbalArm.rotation.z = Math.PI / 2;
+    gimbal.add(gimbalArm);
+    const cameraPod = new THREE.Mesh(new THREE.SphereGeometry(.24,28,16), darkMaterial);
+    cameraPod.scale.set(1.05,.9,.82);
+    cameraPod.position.set(0,-.18,-.08);
+    gimbal.add(cameraPod);
+    const lens = new THREE.Mesh(new THREE.CylinderGeometry(.095,.095,.055,24), new THREE.MeshStandardMaterial({color:0x38bdf8,metalness:.8,roughness:.08,emissive:0x0c4a6e,emissiveIntensity:.22}));
+    lens.rotation.x = Math.PI / 2;
+    lens.position.set(0,-.18,-.28);
+    gimbal.add(lens);
+    gimbal.position.set(0,-.32,-.42);
+    drone.add(gimbal);
+
+    const arms = new THREE.Group();
+    const propellers = [];
+    [[-1.72,.72],[1.72,.72],[-1.72,-.72],[1.72,-.72]].forEach((point,index)=>{
+      const arm = new THREE.Mesh(new THREE.CylinderGeometry(.055,.075,1.78,14), carbonMaterial);
+      arm.position.set(point[0] / 2, .03, point[1] / 2);
+      arm.rotation.z = Math.PI / 2;
+      arm.rotation.y = Math.atan2(point[1],point[0]);
+      arm.castShadow = true;
+      arms.add(arm);
+
+      const motor = new THREE.Mesh(new THREE.CylinderGeometry(.24,.26,.22,28), darkMaterial);
+      motor.position.set(point[0],.12,point[1]);
+      motor.castShadow = true;
+      arms.add(motor);
+
+      const rotor = new THREE.Group();
+      rotor.position.set(point[0],.3,point[1]);
+      const hub = new THREE.Mesh(new THREE.CylinderGeometry(.1,.1,.07,18), accentMaterial);
+      hub.position.y = .01;
+      rotor.add(hub);
+      const bladeMaterial = new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.34,side:THREE.DoubleSide,depthWrite:false});
+      const blurDisc = new THREE.Mesh(new THREE.CircleGeometry(.66,48), bladeMaterial);
+      blurDisc.rotation.x = -Math.PI / 2;
+      rotor.add(blurDisc);
+      const bladeA = new THREE.Mesh(new THREE.BoxGeometry(.08,1.28,.02), new THREE.MeshBasicMaterial({color:0x0f172a,transparent:true,opacity:.52}));
+      const bladeB = bladeA.clone();
+      bladeB.rotation.y = Math.PI / 2;
+      rotor.add(bladeA,bladeB);
+      propellers.push(rotor);
+      arms.add(rotor);
+    });
+    drone.add(arms);
+
+    const landingGear = new THREE.Group();
+    [-.52,.52].forEach(x=>{
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(.026,.026,.7,10), carbonMaterial);
+      leg.position.set(x,-.42,.04);
+      leg.rotation.x = .18;
+      landingGear.add(leg);
+      const skid = new THREE.Mesh(new THREE.CylinderGeometry(.025,.025,1.25,10), carbonMaterial);
+      skid.position.set(x,-.74,.08);
+      skid.rotation.x = Math.PI / 2;
+      landingGear.add(skid);
+    });
+    drone.add(landingGear);
+    drone.position.y = 1.25;
+    scene.add(drone);
+
+    function terrainHeight(x,z){
+      return Math.sin(x * .8) * .22 + Math.cos(z * 1.1) * .18 + Math.sin((x + z) * .7) * .08;
+    }
+
+    const terrain = new THREE.Group();
+    const terrainGeometry = new THREE.PlaneGeometry(9,7,56,44);
+    terrainGeometry.rotateX(-Math.PI / 2);
+    const terrainPositions = terrainGeometry.attributes.position;
+    for(let i=0;i<terrainPositions.count;i++){
+      const x = terrainPositions.getX(i), z = terrainPositions.getZ(i);
+      terrainPositions.setY(i, terrainHeight(x,z));
+    }
+    terrainGeometry.computeVertexNormals();
+    const terrainMesh = new THREE.Mesh(terrainGeometry, new THREE.MeshStandardMaterial({
+      color:0x6f8f68,roughness:.86,metalness:.02,transparent:true,opacity:.92
+    }));
+    terrainMesh.receiveShadow = true;
+    terrain.add(terrainMesh);
+    const terrainWire = new THREE.Mesh(terrainGeometry.clone(), new THREE.MeshBasicMaterial({
+      color:0xfdbf79,wireframe:true,transparent:true,opacity:.28
+    }));
+    terrainWire.position.y = .012;
+    terrain.add(terrainWire);
+
+    const contourGroup = new THREE.Group();
+    [-2.8,-1.6,-.4,.8,2.0,3.1].forEach((z,index)=>{
+      const points = [];
+      for(let step=0;step<=96;step++){
+        const x = -4 + step * (8 / 96);
+        const y = terrainHeight(x,z) + .055;
+        points.push(new THREE.Vector3(x,y,z + Math.sin(step * .18 + index) * .18));
+      }
+      const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({
+        color:index % 2 ? 0xffffff : 0xfdba74,transparent:true,opacity:index % 2 ? .36 : .56
+      }));
+      contourGroup.add(line);
+    });
+    terrain.add(contourGroup);
+
+    const roadMaterial = new THREE.MeshStandardMaterial({color:0x2f3742,roughness:.7,transparent:true,opacity:.82});
+    const road = new THREE.Mesh(new THREE.BoxGeometry(8.8,.025,.34), roadMaterial);
+    road.position.set(.1,.09,-1.45);
+    road.rotation.y = -.18;
+    road.receiveShadow = true;
+    terrain.add(road);
+
+    const buildingGroup = new THREE.Group();
+    [[-3.2,.42,1.8,.7,.8],[-2.35,.62,2.25,.55,.72],[2.8,.7,1.75,.72,.9],[3.55,.48,2.35,.56,.66],[1.9,.38,2.55,.5,.6]].forEach(item=>{
+      const [x,h,z,w,d] = item;
+      const block = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), new THREE.MeshStandardMaterial({
+        color:0xd8e3ea,roughness:.45,metalness:.04,transparent:true,opacity:.9
+      }));
+      block.position.set(x, terrainHeight(x,z) + h/2 + .08, z);
+      block.castShadow = true;
+      block.receiveShadow = true;
+      buildingGroup.add(block);
+      const edges = new THREE.LineSegments(new THREE.EdgesGeometry(block.geometry), new THREE.LineBasicMaterial({color:0x0f172a,transparent:true,opacity:.36}));
+      edges.position.copy(block.position);
+      buildingGroup.add(edges);
+    });
+    terrain.add(buildingGroup);
+
+    const markerGroup = new THREE.Group();
+    [[-3.7,-2.2],[.4,-2.7],[3.4,-.6],[-1.7,2.7]].forEach((point,index)=>{
+      const [x,z] = point;
+      const y = terrainHeight(x,z);
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(.035,.035,.72,10), new THREE.MeshStandardMaterial({color:0xffedd5,metalness:.25,roughness:.35}));
+      pole.position.set(x,y+.36,z);
+      const cap = new THREE.Mesh(new THREE.SphereGeometry(.12,16,10), new THREE.MeshStandardMaterial({color:index === 0 ? 0xea580c : 0xfdba74,emissive:index === 0 ? 0x5a1608 : 0x3a2508,emissiveIntensity:.35}));
+      cap.position.set(x,y+.78,z);
+      markerGroup.add(pole,cap);
+    });
+    terrain.add(markerGroup);
+
+    const tripodGroup = new THREE.Group();
+    const tripodTop = new THREE.Mesh(new THREE.SphereGeometry(.13,16,10), new THREE.MeshStandardMaterial({color:0xea580c}));
+    tripodTop.position.set(-.7, terrainHeight(-.7,.75)+.92, .75);
+    tripodGroup.add(tripodTop);
+    [[-.28,.18],[.3,.18],[0,-.34]].forEach(offset=>{
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(.018,.026,.95,8), new THREE.MeshStandardMaterial({color:0x111827,metalness:.55,roughness:.28}));
+      leg.position.set(-.7 + offset[0]/2, terrainHeight(-.7,.75)+.45, .75 + offset[1]/2);
+      leg.rotation.z = offset[0] * .9;
+      leg.rotation.x = -offset[1] * .9;
+      tripodGroup.add(leg);
+    });
+    terrain.add(tripodGroup);
+
+    const pointGeometry = new THREE.BufferGeometry();
+    const pointPositions = [];
+    for(let i=0;i<420;i++){
+      const x = (Math.random() - .5) * 8.4;
+      const z = (Math.random() - .5) * 6.2;
+      pointPositions.push(x, terrainHeight(x,z) + .08 + Math.random() * .22, z);
+    }
+    pointGeometry.setAttribute('position', new THREE.Float32BufferAttribute(pointPositions,3));
+    const pointCloud = new THREE.Points(pointGeometry, new THREE.PointsMaterial({
+      color:0x38bdf8,size:.035,transparent:true,opacity:.88
+    }));
+    terrain.add(pointCloud);
+
+    const scanGrid = new THREE.GridHelper(8,16,0xfdba74,0x4f6c78);
+    scanGrid.position.y = .02;
+    scanGrid.material.transparent = true;
+    scanGrid.material.opacity = .52;
+    terrain.add(scanGrid);
+
+    const scanBeam = new THREE.Mesh(new THREE.ConeGeometry(1.45,2.25,32,1,true), new THREE.MeshBasicMaterial({
+      color:0x38bdf8,transparent:true,opacity:.18,side:THREE.DoubleSide,depthWrite:false
+    }));
+    scanBeam.position.set(0,.12,0);
+    scanBeam.rotation.x = Math.PI;
+    drone.add(scanBeam);
+    scene.add(terrain);
+
+    let mode = 'drone';
+    let rotationX = .15, rotationY = -.4, dragging = false, lastX = 0, lastY = 0;
+    const modeNames = {drone:'DRONE LIDAR CAPTURE',terrain:'CONTOURS + CONTROL POINTS',scan:'POINT CLOUD + BIM MASSING'};
+    function setMode(nextMode){
+      mode = nextMode;
+      drone.visible = mode !== 'terrain';
+      scanBeam.visible = mode === 'drone';
+      terrainMesh.visible = true;
+      terrainWire.visible = mode !== 'drone';
+      contourGroup.visible = mode !== 'drone';
+      markerGroup.visible = mode !== 'scan';
+      tripodGroup.visible = mode !== 'scan';
+      buildingGroup.visible = mode !== 'terrain';
+      pointCloud.visible = mode === 'scan' || mode === 'drone';
+      scanGrid.visible = mode === 'scan';
+      status.textContent = modeNames[mode];
+      document.querySelectorAll('[data-field-mode]').forEach(button => button.classList.toggle('is-active', button.dataset.fieldMode === mode));
+    }
+    document.querySelectorAll('[data-field-mode]').forEach(button => button.addEventListener('click', () => setMode(button.dataset.fieldMode)));
+    document.querySelector('[data-field-reset]').addEventListener('click', () => {
+      rotationX = .15;
+      rotationY = -.4;
+      camera.position.set(7,5.5,8);
+      camera.lookAt(0,1,0);
+    });
+    canvas.addEventListener('pointerdown', event => { dragging = true; lastX = event.clientX; lastY = event.clientY; canvas.setPointerCapture(event.pointerId); });
+    canvas.addEventListener('pointermove', event => {
+      if(!dragging){ return; }
+      rotationY += (event.clientX - lastX) * .01;
+      rotationX = Math.max(-.8, Math.min(.8, rotationX + (event.clientY - lastY) * .008));
+      lastX = event.clientX; lastY = event.clientY;
+    });
+    canvas.addEventListener('pointerup', () => { dragging = false; });
+    canvas.addEventListener('pointercancel', () => { dragging = false; });
+
+    function resize(){
+      const width = stage.clientWidth, height = stage.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width,height,false);
+    }
+    function animate(){
+      const time = performance.now() * .001;
+      if(!dragging){ rotationY += .002; }
+      drone.rotation.set(rotationX, rotationY, 0);
+      terrain.rotation.y = rotationY;
+      drone.position.y = 1.25 + Math.sin(time * 1.8) * .08;
+      scanBeam.scale.setScalar(1 + Math.sin(time * 2.2) * .05);
+      pointCloud.material.opacity = mode === 'scan' ? .92 : .48 + Math.sin(time * 3) * .08;
+      propellers.forEach((rotor,index) => { rotor.rotation.y = time * (index % 2 ? -12 : 12); });
+      renderer.render(scene,camera);
+      requestAnimationFrame(animate);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    setMode(mode);
+    animate();
+  })();
+
+  // ============ 3D TOPOGRAPHIC MESH HERO ============
+  (function(){
+    const canvas = document.getElementById('hero-canvas');
+    const heroSection = document.getElementById('top');
+    let width = heroSection.clientWidth, height = heroSection.clientHeight;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 1000);
+    camera.position.set(0, 26, 34);
+    camera.lookAt(0,0,0);
+
+    const renderer = new THREE.WebGLRenderer({canvas: canvas, antialias:true, alpha:true});
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Terrain-like plane, displaced to resemble a LiDAR elevation model
+    const segs = 90;
+    const size = 60;
+    const geometry = new THREE.PlaneGeometry(size, size, segs, segs);
+    geometry.rotateX(-Math.PI/2);
+
+    function noise(x,y,t){
+      return Math.sin(x*0.25 + t*0.15) * Math.cos(y*0.22 - t*0.1) * 2.6
+           + Math.sin(x*0.09 - y*0.11 + t*0.08) * 3.4
+           + Math.sin((x+y)*0.06 + t*0.05) * 1.8;
+    }
+
+    const posAttr = geometry.attributes.position;
+    const base = [];
+    for(let i=0;i<posAttr.count;i++){ base.push(posAttr.getX(i), posAttr.getZ(i)); }
+
+    const material = new THREE.MeshBasicMaterial({
+      color: 0xd8ab5c,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.55
+    });
+    const terrain = new THREE.Mesh(geometry, material);
+    scene.add(terrain);
+
+    // Faint secondary mesh (deep teal) offset below for depth
+    const material2 = new THREE.MeshBasicMaterial({ color:0x2f6a5f, wireframe:true, transparent:true, opacity:0.25 });
+    const terrain2 = new THREE.Mesh(geometry.clone(), material2);
+    terrain2.position.y = -3;
+    scene.add(terrain2);
+
+    // Slim vertical "survey marker" pins
+    const pinGroup = new THREE.Group();
+    const pinPositions = [[-14,10],[9,-6],[18,4],[-6,-14],[3,16]];
+    pinPositions.forEach(p=>{
+      const pinGeo = new THREE.ConeGeometry(0.28, 2.2, 4);
+      const pinMat = new THREE.MeshBasicMaterial({color:0xd8ab5c});
+      const pin = new THREE.Mesh(pinGeo, pinMat);
+      pin.position.set(p[0], 3, p[1]);
+      pinGroup.add(pin);
+    });
+    scene.add(pinGroup);
+
+    let clock = new THREE.Clock();
+
+    function animate(){
+      const t = clock.getElapsedTime();
+      const posAttr2 = geometry.attributes.position;
+      for(let i=0;i<posAttr2.count;i++){
+        const x = base[i*2], z = base[i*2+1];
+        posAttr2.setY(i, noise(x,z,t));
+      }
+      posAttr2.needsUpdate = true;
+      geometry.computeVertexNormals();
+
+      scene.rotation.y = t*0.05;
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    function onResize(){
+      width = heroSection.clientWidth;
+      height = heroSection.clientHeight;
+      camera.aspect = width/height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
+    window.addEventListener('resize', onResize);
+  })();
+</script>
+</body>
+</html>
