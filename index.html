@@ -79,7 +79,25 @@
     letter-spacing:0;border:0;cursor:pointer;box-shadow:0 14px 30px -20px rgba(154,52,18,0.92);
   }
   .nav-cta:hover{background:linear-gradient(135deg,#fdba74,#c2410c);}
-  .burger{display:none;}
+  .mobile-demo{display:none;}
+  .burger{
+    display:none;align-items:center;justify-content:center;gap:0;
+    width:44px;height:44px;border:1px solid rgba(15,23,42,0.10);
+    border-radius:12px;background:rgba(255,255,255,0.78);cursor:pointer;
+  }
+  .burger span{
+    position:relative;display:block;width:20px;height:2px;background:var(--ink);
+    transition:background .2s ease;
+  }
+  .burger span::before,.burger span::after{
+    content:"";position:absolute;left:0;width:20px;height:2px;background:var(--ink);
+    transition:transform .24s ease, top .24s ease;
+  }
+  .burger span::before{top:-7px;}
+  .burger span::after{top:7px;}
+  header.site-nav.menu-open .burger span{background:transparent;}
+  header.site-nav.menu-open .burger span::before{top:0;transform:rotate(45deg);}
+  header.site-nav.menu-open .burger span::after{top:0;transform:rotate(-45deg);}
 
   /* ---------- REQUEST DEMO MODAL ---------- */
   body.modal-open{overflow:hidden;}
@@ -217,8 +235,8 @@
   /* ---------- SECTION SCAFFOLD ---------- */
   section{padding:120px 0;position:relative;}
   .section-tag{
-    font-family:var(--sans);font-size:12px;color:var(--gold-bright);
-    font-weight:800;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:18px;
+    font-family:var(--sans);font-size:14px;color:var(--gold-bright);
+    font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-bottom:18px;
   }
   .section-tag.on-dark{color:var(--gold-bright);}
   h2.section-title{
@@ -296,7 +314,7 @@
   #vm{background:var(--paper-2);}
   .vm-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:56px;background:transparent;}
   .vm-card{background:var(--surface);padding:44px;border:1px solid rgba(251,146,60,0.24);border-radius:18px;box-shadow:var(--card-shadow);}
-  .vm-card h3{font-family:var(--serif);font-style:normal;font-size:26px;margin-bottom:16px;color:var(--maroon);}
+  .vm-card h3{font-family:var(--serif);font-style:normal;font-size:26px;margin-bottom:16px;color:var(--maroon);text-align:center;}
   .vm-card p{font-size:15.5px;line-height:1.75;color:var(--muted);}
 
   /* ---------- SERVICES ---------- */
@@ -489,8 +507,8 @@
     display:flex;gap:18px;padding:20px 0;border-top:1px solid var(--line-dark);
   }
   .contact-item:last-child{border-bottom:1px solid var(--line-dark);}
-  .contact-item .k{font-family:var(--mono);font-size:11.5px;color:var(--maroon);letter-spacing:.05em;width:110px;flex-shrink:0;padding-top:2px;}
-  .contact-item .v{font-size:16px;color:var(--ink-2);}
+  .contact-item .k{font-family:var(--sans);font-size:13px;font-weight:800;color:var(--maroon);letter-spacing:.4px;width:110px;flex-shrink:0;padding-top:2px;}
+  .contact-item .v{font-family:var(--sans);font-size:16px;color:var(--ink-2);}
   .contact-item a:hover{color:var(--maroon);}
 
   footer{
@@ -525,7 +543,21 @@
   }
 
   @media (max-width:860px){
-    nav.links{display:none;}
+    header.site-nav{padding:12px 20px;}
+    header.site-nav.scrolled{padding:10px 20px;}
+    nav.links{
+      position:absolute;top:calc(100% + 10px);left:20px;right:20px;
+      display:flex;flex-direction:column;gap:4px;padding:12px;
+      border-radius:16px;background:rgba(255,255,255,0.96);
+      box-shadow:0 22px 50px -30px rgba(15,23,42,0.72);
+      opacity:0;visibility:hidden;pointer-events:none;
+      transform:translateY(-10px);transition:opacity .22s ease, transform .22s ease, visibility .22s ease;
+    }
+    header.site-nav.menu-open nav.links{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);}
+    nav.links a{padding:12px 14px;border-radius:10px;}
+    .nav-cta{display:none;}
+    .mobile-demo{display:block;width:100%;margin-top:6px;text-align:center;}
+    .burger{display:inline-flex;}
     .about-grid, .welcome-inner, .vm-grid, .proj-top, .contact-grid{grid-template-columns:1fr;}
     .services-grid{grid-template-columns:1fr 1fr;}
     .field-lab-grid{grid-template-columns:1fr;gap:30px;}
@@ -540,6 +572,9 @@
     .about-media img{height:300px;}
   }
   @media (max-width:560px){
+    header.site-nav{padding:10px 14px;}
+    header.site-nav.scrolled{padding:9px 14px;}
+    nav.links{left:14px;right:14px;border-radius:12px;}
     .wrap{padding:0 20px;}
     .brand .jsr-logo{width:68px;height:36px;}
     .brand-text{display:none;}
@@ -604,6 +639,7 @@
   nav.links a:hover{background:#dfece4;color:var(--gold-bright);}
   .nav-cta,.btn-solid{background:var(--gold-bright);border-radius:4px;box-shadow:0 14px 28px -20px rgba(185,79,69,.9);}
   .nav-cta:hover,.btn-solid:hover{background:#b94f45;}
+  .burger{border-radius:4px;border-color:rgba(17,42,44,.14);background:rgba(251,252,248,.82);}
   .hero{min-height:660px;background:#112a2c;}
   .hero-photo{opacity:.82;filter:saturate(.72) contrast(1.1);}
   .hero-photo-veil{background:linear-gradient(90deg,rgba(9,31,34,.9) 0%,rgba(9,31,34,.48) 52%,rgba(9,31,34,.16) 100%),linear-gradient(180deg,rgba(9,31,34,.18),rgba(9,31,34,.88));}
@@ -667,7 +703,10 @@
   .proof-item strong{display:block;font:400 24px/1 var(--serif);color:#f1b879;}
   .proof-item span{display:block;margin-top:6px;font:700 10px/1.35 var(--mono);letter-spacing:.08em;color:rgba(247,249,245,.58);}
   section{padding:86px 0;}
-  .section-tag{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gold-bright);text-align:center;}
+  .section-tag{
+    font-family:var(--sans);font-size:15px;font-weight:800;
+    letter-spacing:.8px;color:var(--gold-bright);text-align:center;
+  }
   h2.section-title{font-size:clamp(34px,4.2vw,54px);text-align:center;margin-left:auto;margin-right:auto;}
   .section-title em{color:var(--gold-bright);}
   #about,#services,#contact{background:rgba(251,252,248,.55);}
@@ -688,7 +727,7 @@
   .md-card .initial{border-radius:4px;background:var(--ink);color:#f1b879;}
   .welcome-inner{gap:48px;margin-top:36px;}
   .vm-grid{margin-top:36px;}
-  .vm-card h3{color:var(--gold-bright);}
+  .vm-card h3{color:var(--gold-bright);text-align:center;}
   .svc-face{border-radius:4px;border-color:rgba(17,42,44,.2);}
   .svc-card{transition:transform .32s ease, filter .32s ease;}
   .svc-card:hover{transform:translateY(-8px);filter:saturate(1.08);}
@@ -717,9 +756,26 @@
   }
   #projects .wrap{position:relative;z-index:1;}
   #projects h2.section-title{color:#f7f9f5;}
-  .proj-top{gap:44px;margin-top:34px;}
-  .proj-top p{text-align:center;margin-left:auto;margin-right:auto;}
-  .proj-stat{text-align:center;}
+  .proj-top{
+    grid-template-columns:minmax(0, 1fr) 260px;gap:34px;align-items:center;
+    margin-top:34px;padding:28px 0 30px;
+    border-top:1px solid rgba(241,184,121,.18);
+    border-bottom:1px solid rgba(241,184,121,.18);
+  }
+  #projects .proj-top h2.section-title{
+    max-width:620px;text-align:left;margin-left:0;margin-right:0;
+  }
+  .proj-top p{
+    max-width:660px;text-align:left;margin-left:0;margin-right:0;
+    color:rgba(247,249,245,.72);
+  }
+  .proj-stat{
+    position:relative;text-align:left;padding:24px 22px;
+    background:rgba(247,249,245,.08);border:1px solid rgba(241,184,121,.24);
+    box-shadow:0 24px 70px -46px rgba(0,0,0,.7);
+  }
+  .proj-stat .big{font-size:74px;color:#f1b879;}
+  .proj-stat .cap{max-width:180px;color:rgba(247,249,245,.68);}
   .proj-gallery{margin-top:38px;}
   .proj-scroll-wrap{margin-top:42px;}
   .proj-row{border-radius:4px;background-color:#204346;box-shadow:0 22px 48px -26px rgba(0,0,0,.55);}
@@ -735,17 +791,48 @@
   #contact .section-tag{margin-bottom:10px;}
   #contact .section-title{max-width:620px;}
   .contact-grid{gap:32px;margin-top:24px;align-items:start;}
-  .contact-grid p.lead{font-size:15px;line-height:1.55;max-width:430px;}
+  .contact-grid p.lead{font-family:var(--sans);font-size:16px;line-height:1.6;max-width:430px;}
   .contact-copy .btn-solid{display:inline-flex;margin-top:18px;}
   .contact-list{margin-top:0;}
   .contact-item{gap:14px;padding:13px 0;}
-  .contact-item .k{width:92px;font-size:10.5px;}
-  .contact-item .v{font-size:15px;line-height:1.45;}
+  .contact-item .k{font-family:var(--sans);width:92px;font-size:13px;font-weight:800;letter-spacing:.4px;}
+  .contact-item .v{font-family:var(--sans);font-size:16px;line-height:1.5;}
   footer{background:#112a2c;}
   .reveal-on-scroll{opacity:0;transform:translateY(22px);transition:opacity .7s ease, transform .7s ease;}
   .reveal-on-scroll.is-visible{opacity:1;transform:translateY(0);}
 
+  @media (max-width:860px){
+    header.site-nav{padding:12px 20px;}
+    header.site-nav.scrolled{padding:10px 20px;}
+    nav.links{
+      position:absolute;top:calc(100% + 10px);left:20px;right:20px;
+      display:flex;flex-direction:column;gap:4px;padding:12px;
+      border-radius:4px;background:rgba(251,252,248,.97);
+      border-color:rgba(17,42,44,.14);
+      box-shadow:0 24px 60px -38px rgba(17,42,44,.7);
+      opacity:0;visibility:hidden;pointer-events:none;
+      transform:translateY(-10px);
+      transition:opacity .22s ease, transform .22s ease, visibility .22s ease;
+    }
+    header.site-nav.menu-open nav.links{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);}
+    nav.links a{padding:12px 14px;border-radius:3px;}
+    .nav-cta{display:none;}
+    .mobile-demo{display:block;width:100%;margin-top:6px;text-align:center;}
+    .burger{display:inline-flex;}
+    .proj-top{
+      grid-template-columns:1fr;padding:24px 0;gap:22px;
+    }
+    #projects .proj-top h2.section-title,.proj-top p{text-align:center;margin-left:auto;margin-right:auto;}
+    .proj-stat{
+      width:min(100%, 340px);margin:0 auto;text-align:center;
+    }
+    .proj-stat .cap{max-width:none;margin-left:auto;margin-right:auto;}
+  }
+
   @media (max-width:560px){
+    header.site-nav{padding:10px 14px;}
+    header.site-nav.scrolled{padding:9px 14px;}
+    nav.links{left:14px;right:14px;}
     section{padding:58px 0;}
     .hero{min-height:0;}
     .hero-content{max-width:calc(100% - 28px);margin:88px 14px 22px;padding:0 20px;}
@@ -784,15 +871,19 @@
     <img class="jsr-logo" src="images/logo.png" alt="JSR logo">
     <span class="brand-text">JSR Technology</span>
   </div>
-  <nav class="links">
+  <nav class="links" id="primaryNav" aria-label="Primary navigation">
     <a href="#about">About</a>
     <a href="#vm">Vision &amp; Mission</a>
     <a href="#services">Services</a>
     <a href="#field-lab">3D Lab</a>
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
+    <button class="nav-cta mobile-demo" type="button" data-open-demo>Request A Demo</button>
   </nav>
   <button class="nav-cta" type="button" data-open-demo>Request A Demo</button>
+  <button class="burger" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primaryNav">
+    <span aria-hidden="true"></span>
+  </button>
 </header>
 
 <div class="demo-modal" id="demoModal" aria-hidden="true">
@@ -832,7 +923,7 @@
 
 <!-- ================= HERO ================= -->
 <section class="hero" id="top">
-  <img class="hero-photo" src="https://commons.wikimedia.org/wiki/Special:FilePath/DJI%200191-Edit%20foto-Tomazs%20Majewski.jpg" alt="Aerial drone view of terrain" loading="eager">
+  <img class="hero-photo" src="images/drone-terrain.jpg" alt="Aerial drone view of terrain" loading="eager">
   <div class="hero-photo-veil"></div>
   <canvas id="hero-canvas"></canvas>
   <div class="hero-grid-overlay"></div>
@@ -888,22 +979,22 @@
         </div>
       </div>
       <div class="about-media">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aerial%20view%20of%20winding%20river%20(Unsplash).jpg" alt="Aerial view of terrain mapped for survey" loading="lazy">
+        <img src="images/winding-river.jpg" alt="Aerial view of terrain mapped for survey" loading="lazy">
         <div class="tag-chip">FIELD DATA / DIGITAL ELEVATION MODEL</div>
       </div>
     </div>
 
     <div class="showcase-strip">
       <div class="shot">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Drone%20Photography%20Hillcrest%20San%20Diego.jpg" alt="Drone aerial mapping of a developed area" loading="lazy">
+        <img src="images/hillcrest-drone.jpg" alt="Drone aerial mapping of a developed area" loading="lazy">
         <div class="cap">DRONE &amp; AERIAL TOPOGRAPHIC CAPTURE</div>
       </div>
       <div class="shot">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hoover%20dam%20from%20air.jpg" alt="Aerial view of a dam for hydro infrastructure survey" loading="lazy">
+        <img src="images/hoover-dam.jpg" alt="Aerial view of a dam for hydro infrastructure survey" loading="lazy">
         <div class="cap">DAM &amp; INFRASTRUCTURE SURVEY</div>
       </div>
       <div class="shot">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/DJI%200191-Edit%20foto-Tomazs%20Majewski.jpg" alt="Aerial view of terrain and vegetation" loading="lazy">
+        <img src="images/drone-terrain.jpg" alt="Aerial view of terrain and vegetation" loading="lazy">
         <div class="cap">TERRAIN &amp; LAND MODELLING</div>
       </div>
     </div>
@@ -960,7 +1051,7 @@
     <button type="button" class="svc-card" aria-pressed="false">
       <span class="svc-inner">
         <span class="svc-face svc-front">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Drone%20Photography%20Hillcrest%20San%20Diego.jpg" alt="Drone capturing aerial survey data" loading="lazy">
+          <img src="images/hillcrest-drone.jpg" alt="Drone capturing aerial survey data" loading="lazy">
           <span class="svc-content"><span class="svc-id">SVY / 01</span><span class="svc-name">Aerial Topographic Survey</span><span class="svc-chip">CLICK TO VIEW</span></span>
         </span>
         <span class="svc-face svc-back">
@@ -972,7 +1063,7 @@
     <button type="button" class="svc-card" aria-pressed="false">
       <span class="svc-inner">
         <span class="svc-face svc-front">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Total%20station%20construction%20set-out%20at%20sunset.jpg" alt="Total station survey equipment on site" loading="lazy">
+          <img src="images/total-station.jpg" alt="Total station survey equipment on site" loading="lazy">
           <span class="svc-content"><span class="svc-id">SVY / 02</span><span class="svc-name">Traditional Topographic Survey</span><span class="svc-chip">CLICK TO VIEW</span></span>
         </span>
         <span class="svc-face svc-back">
@@ -984,7 +1075,7 @@
     <button type="button" class="svc-card" aria-pressed="false">
       <span class="svc-inner">
         <span class="svc-face svc-front">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/General%20Land%20Office%20Survey%20Marker%20-%20panoramio.jpg" alt="Land survey marker used for boundary reference" loading="lazy">
+          <img src="images/survey-marker.jpg" alt="Land survey marker used for boundary reference" loading="lazy">
           <span class="svc-content"><span class="svc-id">SVY / 03</span><span class="svc-name">Land Demarcation &amp; Boundary Survey</span><span class="svc-chip">CLICK TO VIEW</span></span>
         </span>
         <span class="svc-face svc-back">
@@ -996,7 +1087,7 @@
     <button type="button" class="svc-card" aria-pressed="false">
       <span class="svc-inner">
         <span class="svc-face svc-front">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ground%20Penetrating%20Radar%20in%20use.jpg" alt="Ground penetrating radar equipment in use" loading="lazy">
+          <img src="images/ground-penetrating-radar.jpg" alt="Ground penetrating radar equipment in use" loading="lazy">
           <span class="svc-content"><span class="svc-id">SVY / 04</span><span class="svc-name">Ground-Penetrating Radar (GPR)</span><span class="svc-chip">CLICK TO VIEW</span></span>
         </span>
         <span class="svc-face svc-back">
@@ -1008,7 +1099,7 @@
     <button type="button" class="svc-card" aria-pressed="false">
       <span class="svc-inner">
         <span class="svc-face svc-front">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aerial%20view%20of%20Kempegowda%20International%20Airport.jpg" alt="Aerial view of airport infrastructure" loading="lazy">
+          <img src="images/kempegowda-airport.jpg" alt="Aerial view of airport infrastructure" loading="lazy">
           <span class="svc-content"><span class="svc-id">SVY / 05</span><span class="svc-name">Airport Survey &amp; Documentation</span><span class="svc-chip">CLICK TO VIEW</span></span>
         </span>
         <span class="svc-face svc-back">
@@ -1020,7 +1111,7 @@
     <button type="button" class="svc-card" aria-pressed="false">
       <span class="svc-inner">
         <span class="svc-face svc-front">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Screenshot%20qgis.jpg" alt="GIS mapping interface with spatial layers" loading="lazy">
+          <img src="images/qgis-screenshot.jpg" alt="GIS mapping interface with spatial layers" loading="lazy">
           <span class="svc-content"><span class="svc-id">GIS / 06</span><span class="svc-name">GIS Mapping</span><span class="svc-chip">CLICK TO VIEW</span></span>
         </span>
         <span class="svc-face svc-back">
@@ -1032,7 +1123,7 @@
     <button type="button" class="svc-card" aria-pressed="false">
       <span class="svc-inner">
         <span class="svc-face svc-front">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/GIS%20map.png" alt="Municipal GIS map with property and road layers" loading="lazy">
+          <img src="images/gis-map.png" alt="Municipal GIS map with property and road layers" loading="lazy">
           <span class="svc-content"><span class="svc-id">GIS / 07</span><span class="svc-name">GIS-Based Municipal &amp; Property Mapping</span><span class="svc-chip">CLICK TO VIEW</span></span>
         </span>
         <span class="svc-face svc-back">
@@ -1044,7 +1135,7 @@
     <button type="button" class="svc-card" aria-pressed="false">
       <span class="svc-inner">
         <span class="svc-face svc-front">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/3D-Floor-Plan.jpg" alt="3D model and floor plan visualization" loading="lazy">
+          <img src="images/floor-plan-3d.jpg" alt="3D model and floor plan visualization" loading="lazy">
           <span class="svc-content"><span class="svc-id">3D / 08</span><span class="svc-name">3D Modelling &amp; Scan-to-BIM</span><span class="svc-chip">CLICK TO VIEW</span></span>
         </span>
         <span class="svc-face svc-back">
@@ -1056,7 +1147,7 @@
     <button type="button" class="svc-card" aria-pressed="false">
       <span class="svc-inner">
         <span class="svc-face svc-front">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lincoln%20Memorial%20Interior%2C%20360%20degrees%20%28acf47c1c-9601-4b1b-9225-cf25f6a89bf9%29.jpg" alt="360 degree interior virtual tour panorama" loading="lazy">
+          <img src="images/virtual-tour-360.jpg" alt="360 degree interior virtual tour panorama" loading="lazy">
           <span class="svc-content"><span class="svc-id">3D / 09</span><span class="svc-name">3D Virtual Tours &amp; Digital Twins</span><span class="svc-chip">CLICK TO VIEW</span></span>
         </span>
         <span class="svc-face svc-back">
@@ -1107,22 +1198,22 @@
 
     <div class="proj-gallery">
       <div class="proj-card">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hoover%20dam%20from%20air.jpg" alt="Dam site survey project" loading="lazy">
+        <img src="images/hoover-dam.jpg" alt="Dam site survey project" loading="lazy">
         <div class="overlay"></div>
         <div class="info"><div class="t">Dam Site Survey</div><div class="s">HYDROPOWER</div></div>
       </div>
       <div class="proj-card">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Drone%20Photography%20Hillcrest%20San%20Diego.jpg" alt="Corridor and urban mapping project" loading="lazy">
+        <img src="images/hillcrest-drone.jpg" alt="Corridor and urban mapping project" loading="lazy">
         <div class="overlay"></div>
         <div class="info"><div class="t">Corridor &amp; Urban Mapping</div><div class="s">INFRASTRUCTURE</div></div>
       </div>
       <div class="proj-card">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aerial%20view%20of%20winding%20river%20(Unsplash).jpg" alt="Aerial topographic survey project" loading="lazy">
+        <img src="images/winding-river.jpg" alt="Aerial topographic survey project" loading="lazy">
         <div class="overlay"></div>
         <div class="info"><div class="t">Aerial Topographic Survey</div><div class="s">LAND DEVELOPMENT</div></div>
       </div>
       <div class="proj-card">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/DJI%200191-Edit%20foto-Tomazs%20Majewski.jpg" alt="Land demarcation and terrain project" loading="lazy">
+        <img src="images/drone-terrain.jpg" alt="Land demarcation and terrain project" loading="lazy">
         <div class="overlay"></div>
         <div class="info"><div class="t">Land Demarcation Survey</div><div class="s">REGULATORY</div></div>
       </div>
@@ -1133,35 +1224,35 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
       </button>
       <div class="proj-list" id="projectScroller">
-        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/Drone%20Photography%20Hillcrest%20San%20Diego.jpg');">
+        <div class="proj-row" style="--project-bg:url('images/hillcrest-drone.jpg');">
           <div><div class="tag">01</div><p>Executed large-area aerial and traditional topographic surveys for infrastructure, land development, and urban planning — delivering high-accuracy contours, elevation models, and CAD-ready drawings.</p></div>
           <div class="proj-type">TOPOGRAPHIC SURVEYS</div>
         </div>
-        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/DJI%200191-Edit%20foto-Tomazs%20Majewski.jpg');">
+        <div class="proj-row" style="--project-bg:url('images/drone-terrain.jpg');">
           <div><div class="tag">02</div><p>Conducted LiDAR and DGPS-based surveys for complex sites requiring precise terrain modeling, volumetric analysis, and engineering-grade data outputs.</p></div>
           <div class="proj-type">LIDAR + DGPS</div>
         </div>
-        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/Aerial%20view%20of%20Kempegowda%20International%20Airport.jpg');">
+        <div class="proj-row" style="--project-bg:url('images/kempegowda-airport.jpg');">
           <div><div class="tag">03</div><p>Completed airport NOC and aviation-compliant surveys, including height verification and obstacle limitation studies, supporting statutory approvals from relevant authorities.</p></div>
           <div class="proj-type">AIRPORT NOC</div>
         </div>
-        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/General%20Land%20Office%20Survey%20Marker%20-%20panoramio.jpg');">
+        <div class="proj-row" style="--project-bg:url('images/survey-marker.jpg');">
           <div><div class="tag">04</div><p>Delivered land demarcation and boundary surveys using DGPS and Total Station, ensuring alignment with revenue records and statutory norms.</p></div>
           <div class="proj-type">BOUNDARY SURVEYS</div>
         </div>
-        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/Screenshot%20qgis.jpg');">
+        <div class="proj-row" style="--project-bg:url('images/qgis-screenshot.jpg');">
           <div><div class="tag">05</div><p>Developed GIS mapping and spatial databases for land records, utilities, and planning studies, enabling structured data management and analysis.</p></div>
           <div class="proj-type">GIS DATABASES</div>
         </div>
-        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/3D-Floor-Plan.jpg');">
+        <div class="proj-row" style="--project-bg:url('images/floor-plan-3d.jpg');">
           <div><div class="tag">06</div><p>Produced 3D models, scan-to-BIM outputs, and accurate as-built documentation for renovation, retrofit, and asset management applications.</p></div>
           <div class="proj-type">SCAN-TO-BIM</div>
         </div>
-        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/Lincoln%20Memorial%20Interior%2C%20360%20degrees%20%28acf47c1c-9601-4b1b-9225-cf25f6a89bf9%29.jpg');">
+        <div class="proj-row" style="--project-bg:url('images/virtual-tour-360.jpg');">
           <div><div class="tag">07</div><p>Created 3D virtual tours and digital twins using Matterport technology for site documentation, remote inspections, and stakeholder presentations.</p></div>
           <div class="proj-type">DIGITAL TWINS</div>
         </div>
-        <div class="proj-row" style="--project-bg:url('https://commons.wikimedia.org/wiki/Special:FilePath/Hoover%20dam%20from%20air.jpg');">
+        <div class="proj-row" style="--project-bg:url('images/hoover-dam.jpg');">
           <div><div class="tag">08</div><p>Managed projects involving tight timelines, multi-agency coordination, and regulatory sensitivity — consistently delivering compliant, decision-ready outputs.</p></div>
           <div class="proj-type">REGULATORY DELIVERY</div>
         </div>
@@ -1175,7 +1266,7 @@
 
 <!-- ================= IMPACT ================= -->
 <section id="impact">
-  <img class="bg" src="https://commons.wikimedia.org/wiki/Special:FilePath/DJI%200191-Edit%20foto-Tomazs%20Majewski.jpg" alt="Aerial landscape background">
+  <img class="bg" src="images/drone-terrain.jpg" alt="Aerial landscape background">
   <div class="veil"></div>
   <div class="wrap inner">
     <div class="section-tag on-dark">07 — OUR IMPACT</div>
@@ -1261,6 +1352,33 @@
 
   // Nav background on scroll
   const nav = document.getElementById('siteNav');
+  const navToggle = document.querySelector('.burger');
+  const primaryNav = document.getElementById('primaryNav');
+
+  function closeMobileNav(){
+    if(!nav || !navToggle){ return; }
+    nav.classList.remove('menu-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Open navigation menu');
+  }
+
+  if(navToggle && primaryNav){
+    navToggle.addEventListener('click', () => {
+      const willOpen = !nav.classList.contains('menu-open');
+      nav.classList.toggle('menu-open', willOpen);
+      navToggle.setAttribute('aria-expanded', String(willOpen));
+      navToggle.setAttribute('aria-label', willOpen ? 'Close navigation menu' : 'Open navigation menu');
+    });
+
+    primaryNav.querySelectorAll('a, button').forEach(item => {
+      item.addEventListener('click', closeMobileNav);
+    });
+
+    window.addEventListener('resize', () => {
+      if(window.innerWidth > 860){ closeMobileNav(); }
+    });
+  }
+
   window.addEventListener('scroll', () => {
     if(window.scrollY > 40){ nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
   });
@@ -1298,6 +1416,7 @@
     button.addEventListener('click', closeDemoModal);
   });
   document.addEventListener('keydown', event => {
+    if(event.key === 'Escape'){ closeMobileNav(); }
     if(event.key === 'Escape' && demoModal.classList.contains('is-open')){
       closeDemoModal();
     }
